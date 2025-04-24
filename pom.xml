@@ -1,0 +1,43 @@
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.qubership.atp.multitenancy</groupId>
+    <artifactId>atp-multitenancy</artifactId>
+    <version>0.0.11</version>
+    <modules>
+        <module>atp-multitenancy-parent-java</module>
+        <module>atp-multitenancy-hibernate</module>
+        <module>atp-multitenancy-core</module>
+        <module>atp-multitenancy-interceptors</module>
+    </modules>
+    <packaging>pom</packaging>
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <targetJdk>1.8</targetJdk>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <console.encoding>UTF-8</console.encoding>
+        <scm.revision>local_build</scm.revision>
+    </properties>
+    <repositories>
+        <repository>
+            <id>central</id>
+            <name>Maven Central</name>
+            <url>https://repo1.maven.org/maven2/</url>
+        </repository>
+    </repositories>
+    <distributionManagement>
+        <repository>
+            <id>central</id>
+            <name>Maven Central</name>
+            <url>https://repo1.maven.org/maven2/</url>
+        </repository>
+    </distributionManagement>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>central</id>
+            <name>Maven Central</name>
+            <url>https://repo1.maven.org/maven2/</url>
+        </pluginRepository>
+    </pluginRepositories>
+</project>
