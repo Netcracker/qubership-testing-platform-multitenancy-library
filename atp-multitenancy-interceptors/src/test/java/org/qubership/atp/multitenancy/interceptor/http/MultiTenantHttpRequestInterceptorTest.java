@@ -40,18 +40,18 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class MultiTenantHttpRequestInterceptorTest {
 
-    MultiTenantHttpRequestInterceptor multiTenantHttpRequestInterceptor;
-    String TENANT_ID = "3d6a138d-057b-4e35-8348-17aee2f2b0f8";
+    private MultiTenantHttpRequestInterceptor multiTenantHttpRequestInterceptor;
+    private String TENANT_ID = "3d6a138d-057b-4e35-8348-17aee2f2b0f8";
     @Mock
-    HttpServletRequest requestMock;
+    private HttpServletRequest requestMock;
     @Mock
-    HttpServletResponse responseMock;
+    private HttpServletResponse responseMock;
     @Mock
-    Object handlerMock;
+    private Object handlerMock;
     @Mock
-    PolicyEnforcement policyEnforcementMock;
+    private PolicyEnforcement policyEnforcementMock;
     @Mock
-    PrintWriter printWriterMock;
+    private PrintWriter printWriterMock;
 
     /**
      * Init multiTenantHttpRequestInterceptor and response mock.

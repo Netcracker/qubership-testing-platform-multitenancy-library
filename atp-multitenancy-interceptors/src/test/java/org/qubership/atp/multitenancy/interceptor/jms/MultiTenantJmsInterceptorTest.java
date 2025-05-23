@@ -47,20 +47,47 @@ import lombok.extern.slf4j.Slf4j;
 @ContextConfiguration(classes = {TestConfiguration.class, QueueMessageListener.class, TopicMessageListener.class})
 public class MultiTenantJmsInterceptorTest {
 
+    /**
+     * Embedded ActiveMq broker.
+     */
     @ClassRule
     public static EmbeddedActiveMQBroker embeddedBroker = new EmbeddedActiveMQBroker();
 
+    /**
+     * List of exceptions.
+     */
     @Autowired
-    List<Exception> exceptionHolder;
-    @Autowired
-    MultiTenantJmsTemplate queueJmsTemplate;
-    @Autowired
-    MultiTenantJmsTemplate topicJmsTemplate;
-    @SpyBean
-    QueueMessageListener queueMessageListenerSpy;
-    @SpyBean
-    TopicMessageListener topicMessageListenerSpy;
+    private List<Exception> exceptionHolder;
 
+    /**
+     * queueJmsTemplate bean.
+     */
+    @Autowired
+    private MultiTenantJmsTemplate queueJmsTemplate;
+
+    /**
+     * topicJmsTemplate bean.
+     */
+    @Autowired
+    private MultiTenantJmsTemplate topicJmsTemplate;
+
+    /**
+     * queueMessageListenerSpy bean.
+     */
+    @SpyBean
+    private QueueMessageListener queueMessageListenerSpy;
+
+    /**
+     * topicMessageListenerSpy bean.
+     */
+    @SpyBean
+    private TopicMessageListener topicMessageListenerSpy;
+
+    /**
+     * Test of setting TenantId from X_PROJECT_ID header received in the message via JMS queue.
+     *
+     * @throws Exception in case JMS errors occurred.
+     */
     @Test
     public void testInitDefaultJmsListenerContainerFactoryShouldReturnEqualTenantIdFromTenantContextAndXProjectIdHeaderWhenJmsMessageReceived() throws Exception {
         Map<String, Object> prop = new HashMap<>();
@@ -74,6 +101,11 @@ public class MultiTenantJmsInterceptorTest {
         }
     }
 
+    /**
+     * Test of setting TenantId from X_PROJECT_ID header received in the message via JMS topic.
+     *
+     * @throws Exception in case JMS errors occurred.
+     */
     @Test
     public void testInitDefaultJmsListenerContainerFactoryTopicShouldReturnEqualTenantIdFromTenantContextAndXProjectIdHeaderWhenJmsMessageReceived() throws Exception {
         Map<String, Object> prop = new HashMap<>();
@@ -85,6 +117,11 @@ public class MultiTenantJmsInterceptorTest {
         }
     }
 
+    /**
+     * Test of setting X_PROJECT_ID header to a message sent via JMS queue.
+     *
+     * @throws JMSException in case JMS errors occurred.
+     */
     @Test
     public void testConvertAndSendShouldReturnEqualsXProjectIdInReceivedMessageFromQueueByJmsListenerAfterXProjectIdWasSentByMultiTenantJmsTemplate() throws JMSException {
         Map<String, Object> prop = new HashMap<>();
@@ -97,6 +134,11 @@ public class MultiTenantJmsInterceptorTest {
         assertEquals(TestConstant.TEST_TENANT_ID, receivedMessage.getStringProperty(CustomHeader.X_PROJECT_ID));
     }
 
+    /**
+     * Test of setting X_PROJECT_ID header to a message sent via JMS topic.
+     *
+     * @throws JMSException in case JMS errors occurred.
+     */
     @Test
     public void testConvertAndSendShouldReturnEqualsXProjectIdInReceivedMessageFromTopicByJmsListenerAfterXProjectIdWasSentByMultiTenantJmsTemplate() throws JMSException {
         Map<String, Object> prop = new HashMap<>();
@@ -109,6 +151,9 @@ public class MultiTenantJmsInterceptorTest {
         assertEquals(TestConstant.TEST_TENANT_ID, receivedMessage.getStringProperty(CustomHeader.X_PROJECT_ID));
     }
 
+    /**
+     * Test that X_PROJECT_ID header should be set properly for a message sent at default tenant.
+     */
     @Test
     public void testReceiveMessageByJmsRequestInterceptorShouldAddExceptionIntoExceptionHolderIfGetTenantInfoIsDefaultAfterXProjectIdWasSentAsNull() {
         Map<String, Object> prop = new HashMap<>();

@@ -21,25 +21,25 @@ public class TestConstant {
     /**
      * Tenant ID for tests.
      */
-    public static String TEST_TENANT_ID = "3d6a138d-057b-4e35-8348-17aee2f2b0f8";
+    public static final String TEST_TENANT_ID = "3d6a138d-057b-4e35-8348-17aee2f2b0f8";
 
     /**
      * Queue name.
      */
-    public static String QUEUE_NAME = "queue-1";
+    public static final String QUEUE_NAME = "queue-1";
 
     /**
      * Text of message.
      */
-    public static String MESSAGE_TEXT = "Test message";
+    public static final String MESSAGE_TEXT = "Test message";
 
     /**
      * Topic name.
      */
-    public static String TOPIC_NAME = "topic-1";
+    public static final String TOPIC_NAME = "topic-1";
 
     /**
      * Topic name with destination type.
      */
-    public static String TOPIC_NAME_WITH_DESTINATION_TYPE = "topic://topic-1";
+    public static final String TOPIC_NAME_WITH_DESTINATION_TYPE = "topic://topic-1";
 }

@@ -35,28 +35,28 @@ public interface AtpJmsTemplate extends JmsOperations {
      * @param properties Map of properties
      * @throws JmsException in case JMS errors occurred.
      */
-    void convertAndSend(final String destination,
-                        final Object message,
-                        final Map<String, Object> properties) throws JmsException;
+    void convertAndSend(String destination,
+                        Object message,
+                        Map<String, Object> properties) throws JmsException;
 
     /**
      * Setter for messageConverter.
      *
      * @param messageConverter MessageConverter object.
      */
-    void setMessageConverter(@Nullable final MessageConverter messageConverter);
+    void setMessageConverter(@Nullable MessageConverter messageConverter);
 
     /**
      *  Setter for connectionFactory.
      *
      * @param connectionFactory ConnectionFactory object.
      */
-    void setConnectionFactory(@Nullable final ConnectionFactory connectionFactory);
+    void setConnectionFactory(@Nullable ConnectionFactory connectionFactory);
 
     /**
      * Setter for pubSubDomain.
      *
      * @param pubSubDomain true/false.
      */
-    void setPubSubDomain(final boolean pubSubDomain);
+    void setPubSubDomain(boolean pubSubDomain);
 }

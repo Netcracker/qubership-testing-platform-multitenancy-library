@@ -44,7 +44,7 @@ public class TopicMessageListener {
      * @param message TextMessage object.
      */
     @JmsListener(destination = "topic-1", containerFactory = "topicJmsListenerContainerFactory")
-    public void topicJmsListenerMethod(TextMessage message) {
+    public void topicJmsListenerMethod(final TextMessage message) {
         exceptionHolder.clear();
         if (!TestConstant.TEST_TENANT_ID.equals(TenantContext.getTenantInfo())) {
             exceptionHolder.add(new RuntimeException("TenantContext contains not correct tenantId"));

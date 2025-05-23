@@ -61,29 +61,29 @@ public class TenantRoutingDataSourceTest {
      * Additional Postgres Clusters configuration.
      */
     @Autowired
-    AdditionalPostgresClusters additionalPostgresClusters;
+    private AdditionalPostgresClusters additionalPostgresClusters;
 
     /**
      * Default cluster.
      */
     @Autowired
-    DefaultPostgresCluster defaultPgCluster;
+    private DefaultPostgresCluster defaultPgCluster;
 
     /**
      * HikariConfig bean.
      */
     @Autowired
-    HikariConfig hikariConfig;
+    private HikariConfig hikariConfig;
 
     /**
      * TenantRoutingDataSource object for tests.
      */
-    TenantRoutingDataSource tenantRoutingDataSource;
+    private TenantRoutingDataSource tenantRoutingDataSource;
 
     /**
      * DataSources map.
      */
-    Map<Object, Object> dataSources = new HashMap<>();
+    private Map<Object, Object> dataSources = new HashMap<>();
 
     /**
      * TenantIdentifierResolver mock.
