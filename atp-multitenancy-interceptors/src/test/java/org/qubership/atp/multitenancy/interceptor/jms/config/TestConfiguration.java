@@ -39,8 +39,15 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TestConfiguration {
 
+    /**
+     * Create queueJmsListenerContainerFactory bean.
+     *
+     * @param connectionFactory ConnectionFactory object
+     * @return new DefaultJmsListenerContainerFactory object created and configured.
+     */
     @Bean
-    public JmsListenerContainerFactory<?> queueJmsListenerContainerFactory(ConnectionFactory connectionFactory) {
+    public JmsListenerContainerFactory<?> queueJmsListenerContainerFactory(
+            final ConnectionFactory connectionFactory) {
         DefaultJmsListenerContainerFactory factory =
                 new MultiTenantJmsRequestInterceptor().initDefaultJmsListenerContainerFactory();
         factory.setConnectionFactory(connectionFactory);
@@ -49,8 +56,15 @@ public class TestConfiguration {
         return factory;
     }
 
+    /**
+     * Create topicJmsListenerContainerFactory bean.
+     *
+     * @param topicConnectionFactory ConnectionFactory object
+     * @return new DefaultJmsListenerContainerFactory object created and configured.
+     */
     @Bean
-    public JmsListenerContainerFactory<?> topicJmsListenerContainerFactory(ConnectionFactory topicConnectionFactory) {
+    public JmsListenerContainerFactory<?> topicJmsListenerContainerFactory(
+            final ConnectionFactory topicConnectionFactory) {
         DefaultJmsListenerContainerFactory factory =
                 new MultiTenantJmsRequestInterceptor().initDefaultJmsListenerContainerFactory();
         factory.setConnectionFactory(topicConnectionFactory);
@@ -59,31 +73,58 @@ public class TestConfiguration {
         return factory;
     }
 
+    /**
+     * Create exceptionHolder bean.
+     *
+     * @return new empty ArrayList object.
+     */
     @Bean
     public List<Exception> exceptionHolder() {
         return new ArrayList<>();
     }
 
+    /**
+     * Create connectionFactory bean.
+     *
+     * @return new ActiveMQConnectionFactory object created and configured.
+     */
     @Bean
     public ConnectionFactory connectionFactory() {
         return new ActiveMQConnectionFactory(MultiTenantJmsInterceptorTest.embeddedBroker.getVmURL());
     }
 
+    /**
+     * Create topicConnectionFactory bean.
+     *
+     * @return new ActiveMQConnectionFactory object created and configured.
+     */
     @Bean
     public ConnectionFactory topicConnectionFactory() {
         return new ActiveMQConnectionFactory(MultiTenantJmsInterceptorTest.embeddedBroker.getVmURL());
     }
 
+    /**
+     * Create queueJmsTemplate bean.
+     *
+     * @param connectionFactory ConnectionFactory object
+     * @return new MultiTenantJmsTemplate object created and configured.
+     */
     @Bean
-    public MultiTenantJmsTemplate queueJmsTemplate(ConnectionFactory connectionFactory) {
+    public MultiTenantJmsTemplate queueJmsTemplate(final ConnectionFactory connectionFactory) {
         MultiTenantJmsTemplate jmsTemplate = new MultiTenantJmsTemplate();
         jmsTemplate.setConnectionFactory(connectionFactory);
         jmsTemplate.setPubSubDomain(false);
         return jmsTemplate;
     }
 
+    /**
+     * Create topicJmsTemplate bean.
+     *
+     * @param topicConnectionFactory ConnectionFactory object
+     * @return new MultiTenantJmsTemplate object created and configured.
+     */
     @Bean
-    public MultiTenantJmsTemplate topicJmsTemplate(ConnectionFactory topicConnectionFactory) {
+    public MultiTenantJmsTemplate topicJmsTemplate(final ConnectionFactory topicConnectionFactory) {
         MultiTenantJmsTemplate jmsTemplate = new MultiTenantJmsTemplate();
         jmsTemplate.setConnectionFactory(topicConnectionFactory);
         jmsTemplate.setPubSubDomain(true);

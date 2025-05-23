@@ -44,9 +44,9 @@ public class MultiTenantJmsRequestInterceptor {
             protected DefaultMessageListenerContainer createContainerInstance() {
                 return new DefaultMessageListenerContainer() {
                     @Override
-                    protected Message receiveMessage(@NonNull MessageConsumer consumer) throws JMSException {
-                        Message message = super.receiveMessage(Objects.requireNonNull(consumer, "Can't receive "
-                                + "message - consumer is null"));
+                    protected Message receiveMessage(@NonNull final MessageConsumer consumer) throws JMSException {
+                        Message message = super.receiveMessage(
+                                Objects.requireNonNull(consumer, "Can't receive message - consumer is null"));
                         if (message != null) {
                             String tenantId = message.getStringProperty(CustomHeader.X_PROJECT_ID);
                             if (tenantId != null && !tenantId.isEmpty()) {

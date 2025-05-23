@@ -53,29 +53,49 @@ public class MultiTenantHttpRequestInterceptorTest {
     @Mock
     PrintWriter printWriterMock;
 
+    /**
+     * Init multiTenantHttpRequestInterceptor and response mock.
+     *
+     * @throws Exception in case errors.
+     */
     @Before
     public void setUp() throws Exception {
         multiTenantHttpRequestInterceptor = new MultiTenantHttpRequestInterceptor(policyEnforcementMock);
         when(responseMock.getWriter()).thenReturn(printWriterMock);
     }
 
+    /**
+     * Test that Tenant Info equals to Tenant ID got from X-Project-Id header.
+     *
+     * @throws IOException in case IO errors occurred.
+     */
     @Test
-    public void testPreHandle_shouldReturnEqualTenantIdFromTenantContextAndXProjectIdHeader_whenXProjectIdHeaderHasAndUserHasAccessToProject() throws IOException {
+    public void testPreHandleShouldReturnEqualTenantIdFromTenantContextAndXProjectIdHeaderWhenXProjectIdHeaderHasAndUserHasAccessToProject() throws IOException {
         when(requestMock.getHeader(CustomHeader.X_PROJECT_ID)).thenReturn(TENANT_ID);
         when(policyEnforcementMock.checkAccess((String) any(), any())).thenReturn(true);
         multiTenantHttpRequestInterceptor.preHandle(requestMock, responseMock, handlerMock);
         assertEquals(TENANT_ID, TenantContext.getTenantInfo());
     }
 
+    /**
+     * Test that pre-Handle returns false in case there is no access to project identified by X-Project-Id header.
+     *
+     * @throws IOException in case IO errors occurred.
+     */
     @Test
-    public void testPreHandle_shouldReturnFalse_whenXProjectIdHeaderHasButNoAccessToProject() throws IOException {
+    public void testPreHandleShouldReturnFalseWhenXProjectIdHeaderHasButNoAccessToProject() throws IOException {
         when(requestMock.getHeader(CustomHeader.X_PROJECT_ID)).thenReturn(TENANT_ID);
         when(policyEnforcementMock.checkAccess((String) any(), any())).thenReturn(false);
         assertFalse(multiTenantHttpRequestInterceptor.preHandle(requestMock, responseMock, handlerMock));
     }
 
+    /**
+     * Test that pre-Handle returns true in case there is no X-Project-Id header.
+     *
+     * @throws IOException in case IO errors occurred.
+     */
     @Test
-    public void testPreHandle_shouldReturnTrue_whenNoXProjectIdHeader() throws IOException {
+    public void testPreHandleShouldReturnTrueWhenNoXProjectIdHeader() throws IOException {
         when(requestMock.getHeader(CustomHeader.X_PROJECT_ID)).thenReturn(null);
         assertTrue(multiTenantHttpRequestInterceptor.preHandle(requestMock, responseMock, handlerMock));
     }

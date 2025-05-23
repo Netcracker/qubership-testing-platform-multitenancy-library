@@ -35,13 +35,15 @@ import org.springframework.jms.core.JmsTemplate;
 public class MultiTenantJmsTemplate extends JmsTemplate implements AtpJmsTemplate {
 
     /**
-     * TODO add javadoc.
+     * Convert and send message.
      *
-     * @param destination destination
-     * @param message message
-     * @param properties properties
+     * @param destination String destination name
+     * @param message Object message to be sent
+     * @param properties Map of message properties.
      */
-    public void convertAndSend(String destination, Object message, Map<String, Object> properties) throws JmsException {
+    public void convertAndSend(final String destination,
+                               final Object message,
+                               final Map<String, Object> properties) throws JmsException {
         super.send(destination, (session) -> {
             Message toMessage = Objects.requireNonNull(super.getMessageConverter(),
                             "MessageConverter wasn't configured for " + destination + "destination")
@@ -53,13 +55,14 @@ public class MultiTenantJmsTemplate extends JmsTemplate implements AtpJmsTemplat
         });
     }
 
-    private void setProperties(Map<String, Object> properties, Message toMessage, Map.Entry<String, Object> property)
-            throws JMSException {
+    private void setProperties(final Map<String, Object> properties,
+                               final Message toMessage,
+                               final Map.Entry<String, Object> property) throws JMSException {
         if (!CustomHeader.X_PROJECT_ID.equals(property.getKey())) {
             toMessage.setStringProperty(property.getKey(), String.valueOf(property.getValue()));
             return;
         }
-        Object tenantId = properties.getOrDefault(property.getKey(), "default");
-        toMessage.setStringProperty(CustomHeader.X_PROJECT_ID, String.valueOf(tenantId));
+        toMessage.setStringProperty(CustomHeader.X_PROJECT_ID,
+                String.valueOf(properties.getOrDefault(property.getKey(), "default")));
     }
 }

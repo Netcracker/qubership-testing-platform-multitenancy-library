@@ -33,8 +33,16 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class TopicMessageListener {
 
+    /**
+     * List of exceptions.
+     */
     private final List<Exception> exceptionHolder;
 
+    /**
+     * Method to collect exceptions.
+     *
+     * @param message TextMessage object.
+     */
     @JmsListener(destination = "topic-1", containerFactory = "topicJmsListenerContainerFactory")
     public void topicJmsListenerMethod(TextMessage message) {
         exceptionHolder.clear();

@@ -18,6 +18,9 @@ package org.qubership.atp.multitenancy.core.header;
 
 public class CustomHeader {
 
+    /**
+     * X-Project-Id header name.
+     */
     public static final String X_PROJECT_ID = "X-Project-Id";
 
 }

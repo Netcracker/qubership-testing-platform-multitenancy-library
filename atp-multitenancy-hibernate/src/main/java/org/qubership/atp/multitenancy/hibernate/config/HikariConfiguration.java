@@ -25,6 +25,11 @@ import com.zaxxer.hikari.HikariConfig;
 @Configuration
 public class HikariConfiguration {
 
+    /**
+     * Create HikariConfig bean.
+     *
+     * @return HikariConfiguration object.
+     */
     @Bean(name = "hikariConfig")
     @ConfigurationProperties(prefix = "spring.datasource.hikari")
     public HikariConfig hikariConfig() {

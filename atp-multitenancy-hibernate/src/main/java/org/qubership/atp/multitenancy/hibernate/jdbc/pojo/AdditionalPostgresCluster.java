@@ -27,6 +27,9 @@ import lombok.Setter;
 @Setter
 public class AdditionalPostgresCluster extends DefaultPostgresCluster {
 
+    /**
+     * String list of project IDs separated by comma.
+     */
     private String projects;
 
     /**

@@ -42,21 +42,55 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class TenantRoutingDataSource extends AbstractRoutingDataSource {
 
+    /**
+     * TenantIdentifierResolver object link.
+     */
     private final TenantIdentifierResolver tenantIdentifierResolver;
+
+    /**
+     * DataSourceBuilder object link.
+     */
     private final DataSourceBuilder<? extends DataSource> dataSourceBuilder;
+
+    /**
+     * ResourceLoader object link.
+     */
     private final ResourceLoader resourceLoader;
+
+    /**
+     * SpringLiquibase object link.
+     */
     private final SpringLiquibase springLiquibase;
+
+    /**
+     * HikariConfig object link.
+     */
     private final HikariConfig hikariConfig;
+
+    /**
+     * LiquibaseProperties object link.
+     */
     private final LiquibaseProperties liquibaseProperties;
 
     /**
-     * TODO add javadoc.
+     * Constructor.
+     *
+     * @param tenantIdentifierResolver TenantIdentifierResolver bean
+     * @param springLiquibase SpringLiquibase bean
+     * @param resourceLoader ResourceLoader bean
+     * @param additionalPostgresClusters AdditionalPostgresClusters bean
+     * @param defaultPostgresCluster DefaultPostgresCluster bean
+     * @param hikariConfig HikariConfig bean
+     * @param liquibaseProperties LiquibaseProperties bean
+     * @throws LiquibaseException in case Liquibase errors occurred.
      */
-    public TenantRoutingDataSource(TenantIdentifierResolver tenantIdentifierResolver, SpringLiquibase springLiquibase,
-                                   ResourceLoader resourceLoader,
-                                   AdditionalPostgresClusters additionalPostgresClusters,
-                                   DefaultPostgresCluster defaultPostgresCluster, HikariConfig hikariConfig,
-                                   LiquibaseProperties liquibaseProperties) throws LiquibaseException {
+    public TenantRoutingDataSource(final TenantIdentifierResolver tenantIdentifierResolver,
+                                   final SpringLiquibase springLiquibase,
+                                   final ResourceLoader resourceLoader,
+                                   final AdditionalPostgresClusters additionalPostgresClusters,
+                                   final DefaultPostgresCluster defaultPostgresCluster,
+                                   final HikariConfig hikariConfig,
+                                   final LiquibaseProperties liquibaseProperties) throws LiquibaseException {
         this.tenantIdentifierResolver = tenantIdentifierResolver;
         this.dataSourceBuilder = DataSourceBuilder.create();
         this.springLiquibase = springLiquibase;
@@ -71,15 +105,19 @@ public class TenantRoutingDataSource extends AbstractRoutingDataSource {
     }
 
     /**
-     * TODO add javadoc.
+     * Determine Current Tenant Identifier.
+     *
+     * @return String Current Tenant Identifier.
      */
     @Override
     protected String determineCurrentLookupKey() {
         return tenantIdentifierResolver.resolveCurrentTenantIdentifier();
     }
 
-    private DataSource createDataSource(String url, String user, String password, String driverClassName)
-            throws LiquibaseException {
+    private DataSource createDataSource(final String url,
+                                        final String user,
+                                        final String password,
+                                        final String driverClassName) throws LiquibaseException {
         dataSourceBuilder.driverClassName(driverClassName);
         dataSourceBuilder.username(user);
         dataSourceBuilder.password(password);
@@ -92,7 +130,7 @@ public class TenantRoutingDataSource extends AbstractRoutingDataSource {
         return dataSource;
     }
 
-    private void migrateDataSource(DataSource dataSource) throws LiquibaseException {
+    private void migrateDataSource(final DataSource dataSource) throws LiquibaseException {
         springLiquibase.setResourceLoader(resourceLoader);
         springLiquibase.setDataSource(dataSource);
         springLiquibase.setChangeLog(liquibaseProperties.getChangeLog());
@@ -107,15 +145,15 @@ public class TenantRoutingDataSource extends AbstractRoutingDataSource {
     }
 
     /**
-     * Create TargetDataSources, migrate (Liquibase) and put them in targetDataSources map.
-     * DataSource will be created only if cluster.url is not empty or cluster.url don't contain "".
+     * Create TargetDataSources, migrate (Liquibase) and put them into targetDataSources map.
+     * DataSource will be created only if cluster.url is not empty or cluster.url doesn't equal "".
      *
      * @param clusters          {@link AdditionalPostgresClusters} objects that have {@link AdditionalPostgresCluster}.
      * @param targetDataSources map, key - projectUuid, value - data source.
      * @throws LiquibaseException when migration is failed.
      */
-    public void createTargetDataSources(AdditionalPostgresClusters clusters, Map<Object, Object> targetDataSources)
-            throws LiquibaseException {
+    public void createTargetDataSources(final AdditionalPostgresClusters clusters,
+                                        final Map<Object, Object> targetDataSources) throws LiquibaseException {
         for (AdditionalPostgresCluster cluster : clusters.getClusters()) {
             if (Objects.isNull(cluster.getUrl()) || cluster.getUrl().isEmpty() || cluster.getUrl().equals("\"\"")) {
                 return;
@@ -126,8 +164,10 @@ public class TenantRoutingDataSource extends AbstractRoutingDataSource {
         }
     }
 
-    private void mapProjectsToDataSource(List<String> projectUuids, DataSource dataSource,
-                                         Map<Object, Object> targetDataSources, AdditionalPostgresCluster cluster) {
+    private void mapProjectsToDataSource(final List<String> projectUuids,
+                                         final DataSource dataSource,
+                                         final Map<Object, Object> targetDataSources,
+                                         final AdditionalPostgresCluster cluster) {
         Assert.notNull(projectUuids,
                 String.format("projectUuids property is null for additional cluster (url): %s", cluster.getUrl()));
         Assert.notEmpty(projectUuids,
@@ -146,14 +186,14 @@ public class TenantRoutingDataSource extends AbstractRoutingDataSource {
      * @return {@link DataSource} default data source.
      * @throws LiquibaseException when migration (Liquibase) is failed.
      */
-    public DataSource createDefaultDataSource(DefaultPostgresCluster defaultPostgresCluster)
+    public DataSource createDefaultDataSource(final DefaultPostgresCluster defaultPostgresCluster)
             throws LiquibaseException {
         return createDataSource(defaultPostgresCluster.getUrl(), defaultPostgresCluster.getUsername(),
                 defaultPostgresCluster.getPassword(),
                 defaultPostgresCluster.getDriverClassName());
     }
 
-    private void setHikariProperties(HikariDataSource dataSource) {
+    private void setHikariProperties(final HikariDataSource dataSource) {
         dataSource.setMinimumIdle(hikariConfig.getMinimumIdle());
         dataSource.setMaximumPoolSize(hikariConfig.getMaximumPoolSize());
         dataSource.setIdleTimeout(hikariConfig.getIdleTimeout());

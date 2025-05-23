@@ -32,14 +32,33 @@ import org.springframework.web.servlet.ModelAndView;
 
 public class MultiTenantHttpRequestInterceptor implements HandlerInterceptor {
 
+    /**
+     * Policy Enforcement object.
+     */
     private final PolicyEnforcement policyEnforcement;
 
-    public MultiTenantHttpRequestInterceptor(PolicyEnforcement policyEnforcement) {
+    /**
+     * Constructor.
+     *
+     * @param policyEnforcement Policy Enforcement object.
+     */
+    public MultiTenantHttpRequestInterceptor(final PolicyEnforcement policyEnforcement) {
         this.policyEnforcement = policyEnforcement;
     }
 
+    /**
+     * Process request and response.
+     *
+     * @param request HttpServletRequest received
+     * @param response HttpServletResponse to be sent
+     * @param handler Handler object
+     * @return false in case access is denied (and make "Access denied" response with 403 code); otherwise true.
+     * @throws IOException in case IO errors occurred.
+     */
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+    public boolean preHandle(final HttpServletRequest request,
+                             final HttpServletResponse response,
+                             final Object handler)
             throws IOException {
         String tenantId = request.getHeader(CustomHeader.X_PROJECT_ID);
         if (tenantId == null) {
@@ -56,9 +75,19 @@ public class MultiTenantHttpRequestInterceptor implements HandlerInterceptor {
         return true;
     }
 
+    /**
+     * Process request and response; actually, it just clears TenantContext.
+     *
+     * @param request HttpServletRequest received
+     * @param response HttpServletResponse to be sent
+     * @param handler Handler object
+     * @param modelAndView ModelAndView object.
+     */
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
-            @Nullable ModelAndView modelAndView) {
+    public void postHandle(final HttpServletRequest request,
+                           final HttpServletResponse response,
+                           final Object handler,
+                           @Nullable final ModelAndView modelAndView) {
         TenantContext.clear();
     }
 }

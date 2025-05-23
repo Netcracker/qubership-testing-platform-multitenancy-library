@@ -33,10 +33,18 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class QueueMessageListener {
 
+    /**
+     * List of exceptions.
+     */
     private final List<Exception> exceptionHolder;
 
+    /**
+     * Method to collect exceptions.
+     *
+     * @param message TextMessage object.
+     */
     @JmsListener(destination = "queue-1", containerFactory = "queueJmsListenerContainerFactory")
-    public void queueJmsListenerMethod(TextMessage message) {
+    public void queueJmsListenerMethod(final TextMessage message) {
         if (!TestConstant.TEST_TENANT_ID.equals(TenantContext.getTenantInfo())) {
             exceptionHolder.add(new RuntimeException("TenantContext contains not correct tenantId"));
         }

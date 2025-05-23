@@ -26,6 +26,11 @@ import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 @EnableJms
 public class MultiTenantJmsListenerContainerFactoryInstanceConfiguration {
 
+    /**
+     * Create multiTenantQueueJmsListenerContainerFactory bean.
+     *
+     * @return DefaultJmsListenerContainerFactory initialized from the just created MultiTenantJmsRequestInterceptor.
+     */
     @Bean
     public DefaultJmsListenerContainerFactory multiTenantQueueJmsListenerContainerFactory() {
         return new MultiTenantJmsRequestInterceptor().initDefaultJmsListenerContainerFactory();

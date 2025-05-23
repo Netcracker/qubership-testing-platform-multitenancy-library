@@ -26,18 +26,34 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernatePropertiesCustomi
 
 public class TenantIdentifierResolver implements CurrentTenantIdentifierResolver, HibernatePropertiesCustomizer {
 
+    /**
+     * Get current Tenant Identifier.
+     *
+     * @return String Tenant Info.
+     */
     @Override
     public String resolveCurrentTenantIdentifier() {
         return TenantContext.getTenantInfo();
     }
 
+    /**
+     * Validate Existing Current Sessions;
+     * Actually, no validation is performed. Method simply returns false.
+     *
+     * @return boolean (currently returns false).
+     */
     @Override
     public boolean validateExistingCurrentSessions() {
         return false;
     }
 
+    /**
+     * Set Hibernate properties.
+     *
+     * @param hibernateProperties Map of Hibernate Configuration properties.
+     */
     @Override
-    public void customize(Map<String, Object> hibernateProperties) {
+    public void customize(final Map<String, Object> hibernateProperties) {
         hibernateProperties.put(AvailableSettings.MULTI_TENANT, MultiTenancyStrategy.DATABASE);
         hibernateProperties.put(AvailableSettings.MULTI_TENANT_IDENTIFIER_RESOLVER, this);
     }

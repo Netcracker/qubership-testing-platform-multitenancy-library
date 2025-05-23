@@ -28,15 +28,28 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @ConditionalOnProperty(value = {"atp.multi-tenancy.enabled"})
 public class MultiTenantHttpRequestInterceptorConfiguration implements WebMvcConfigurer {
 
+    /**
+     * Policy Enforcement object.
+     */
     private final PolicyEnforcement entityAccess;
 
+    /**
+     * Constructor.
+     *
+     * @param entityAccess Policy Enforcement object.
+     */
     @SuppressWarnings({"SpringJavaInjectionPointsAutowiringInspection"})
-    public MultiTenantHttpRequestInterceptorConfiguration(@Lazy PolicyEnforcement entityAccess) {
+    public MultiTenantHttpRequestInterceptorConfiguration(@Lazy final PolicyEnforcement entityAccess) {
         this.entityAccess = entityAccess;
     }
 
+    /**
+     * Add new MultiTenantHttpRequestInterceptor to the registry given.
+     *
+     * @param registry InterceptorRegistry to add Interceptor into.
+     */
     @Override
-    public void addInterceptors(InterceptorRegistry registry) {
+    public void addInterceptors(final InterceptorRegistry registry) {
         registry.addInterceptor(new MultiTenantHttpRequestInterceptor(entityAccess));
     }
 }

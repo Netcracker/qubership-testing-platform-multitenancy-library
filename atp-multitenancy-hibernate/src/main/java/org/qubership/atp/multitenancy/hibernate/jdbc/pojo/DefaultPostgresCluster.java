@@ -28,8 +28,23 @@ import lombok.Setter;
 @Setter
 public class DefaultPostgresCluster {
 
+    /**
+     * String JDBC Url.
+     */
     private String url;
+
+    /**
+     * String username.
+     */
     private String username;
+
+    /**
+     * String password.
+     */
     private String password;
+
+    /**
+     * String class name of database driver.
+     */
     private String driverClassName;
 }

@@ -31,5 +31,8 @@ import lombok.Setter;
 @Setter
 public class AdditionalPostgresClusters {
 
+    /**
+     * List of clusters.
+     */
     private List<AdditionalPostgresCluster> clusters = new ArrayList<>();
 }

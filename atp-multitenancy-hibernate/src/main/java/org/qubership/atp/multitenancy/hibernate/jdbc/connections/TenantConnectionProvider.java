@@ -29,49 +29,107 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernatePropertiesCustomi
 
 public class TenantConnectionProvider implements MultiTenantConnectionProvider, HibernatePropertiesCustomizer {
 
+    /**
+     * DataSource field.
+     */
     private final DataSource dataSource;
 
-    public TenantConnectionProvider(DataSource dataSource) {
+    /**
+     * Constructor.
+     *
+     * @param dataSource DataSource object.
+     */
+    public TenantConnectionProvider(final DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
+    /**
+     * Get connection to the dataSource.
+     *
+     * @return a connection to the dataSource
+     * @throws SQLException if a database error occurs.
+     */
     @Override
     public Connection getAnyConnection() throws SQLException {
         return dataSource.getConnection();
     }
 
+    /**
+     * Close given connection.
+     *
+     * @param connection Connection object to be closed
+     * @throws SQLException if a database error occurs.
+     */
     @Override
-    public void releaseAnyConnection(Connection connection) throws SQLException {
+    public void releaseAnyConnection(final Connection connection) throws SQLException {
         connection.close();
     }
 
+    /**
+     * Get connection to the schema + dataSource;
+     * Actually, schema is ignored, So, connection is to the default schema of the dataSource.
+     *
+     * @param schema String schema name
+     * @return a connection to the dataSource
+     * @throws SQLException if a database error occurs.
+     */
     @Override
-    public Connection getConnection(String schema) throws SQLException {
+    public Connection getConnection(final String schema) throws SQLException {
         return dataSource.getConnection();
     }
 
+    /**
+     * Release the connection.
+     *
+     * @param s Tenant identifier
+     * @param connection Connection to be closed
+     * @throws SQLException if a database error occurs.
+     */
     @Override
-    public void releaseConnection(String s, Connection connection) throws SQLException {
+    public void releaseConnection(final String s, final Connection connection) throws SQLException {
         connection.close();
     }
 
+    /**
+     * Get flag if the provider supports aggressive release of connections (true) or not.
+     *
+     * @return false (= doesn't support aggressive release).
+     */
     @Override
     public boolean supportsAggressiveRelease() {
         return false;
     }
 
+    /**
+     * Is it unwrappable as unwrapType given or not.
+     *
+     * @param unwrapType Class type of unwrap
+     * @return boolean if it's unwrappable as unwrapType given or not; always false.
+     */
     @Override
-    public boolean isUnwrappableAs(Class unwrapType) {
+    public boolean isUnwrappableAs(final Class unwrapType) {
         return false;
     }
 
+    /**
+     * Unwrap to unwrapType.
+     *
+     * @param unwrapType Class type of unwrap
+     * @param <T> Class
+     * @return unwrapped object; always returns null.
+     */
     @Override
-    public <T> T unwrap(Class<T> unwrapType) {
+    public <T> T unwrap(final Class<T> unwrapType) {
         return null;
     }
 
+    /**
+     * Set provider Hibernate properties.
+     *
+     * @param hibernateProperties Map of Hibernate Configuration properties.
+     */
     @Override
-    public void customize(Map<String, Object> hibernateProperties) {
+    public void customize(final Map<String, Object> hibernateProperties) {
         hibernateProperties.put(AvailableSettings.MULTI_TENANT, MultiTenancyStrategy.DATABASE);
         hibernateProperties.put(AvailableSettings.MULTI_TENANT_CONNECTION_PROVIDER, this);
     }

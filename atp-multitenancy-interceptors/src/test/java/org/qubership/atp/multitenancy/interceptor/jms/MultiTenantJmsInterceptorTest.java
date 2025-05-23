@@ -62,58 +62,61 @@ public class MultiTenantJmsInterceptorTest {
     TopicMessageListener topicMessageListenerSpy;
 
     @Test
-    public void testInitDefaultJmsListenerContainerFactory_shouldReturnEqualTenantIdFromTenantContextAndXProjectIdHeader_whenJmsMessageReceived() throws Exception {
+    public void testInitDefaultJmsListenerContainerFactoryShouldReturnEqualTenantIdFromTenantContextAndXProjectIdHeaderWhenJmsMessageReceived() throws Exception {
         Map<String, Object> prop = new HashMap<>();
         prop.put(CustomHeader.X_PROJECT_ID, TestConstant.TEST_TENANT_ID);
         embeddedBroker.pushMessageWithProperties(TestConstant.QUEUE_NAME, TestConstant.MESSAGE_TEXT, prop);
-        assertEquals(1, embeddedBroker.getMessageCount(TestConstant.QUEUE_NAME));// check that message in queue
-        Thread.sleep(100);//wait for consumer receive message
-        assertEquals(0, embeddedBroker.getMessageCount(TestConstant.QUEUE_NAME));// check that message consumed
+        assertEquals(1, embeddedBroker.getMessageCount(TestConstant.QUEUE_NAME)); // check that message in queue
+        Thread.sleep(100); //wait for consumer receive message
+        assertEquals(0, embeddedBroker.getMessageCount(TestConstant.QUEUE_NAME)); // check that message consumed
         if (!exceptionHolder.isEmpty()) {
             fail();
         }
     }
 
     @Test
-    public void testInitDefaultJmsListenerContainerFactoryTopic_shouldReturnEqualTenantIdFromTenantContextAndXProjectIdHeader_whenJmsMessageReceived() throws Exception {
+    public void testInitDefaultJmsListenerContainerFactoryTopicShouldReturnEqualTenantIdFromTenantContextAndXProjectIdHeaderWhenJmsMessageReceived() throws Exception {
         Map<String, Object> prop = new HashMap<>();
         prop.put(CustomHeader.X_PROJECT_ID, TestConstant.TEST_TENANT_ID);
         embeddedBroker.pushMessageWithProperties(TestConstant.TOPIC_NAME_WITH_DESTINATION_TYPE, TestConstant.MESSAGE_TEXT, prop);
-        Thread.sleep(100);//wait for consumer receive message
+        Thread.sleep(100); //wait for consumer receive message
         if (!exceptionHolder.isEmpty()) {
             fail();
         }
     }
 
     @Test
-    public void testConvertAndSend_shouldReturnEqualsXProjectIdInReceivedMessageFromQueueByJmsListener_afterXProjectIdWasSentByMultiTenantJmsTemplate() throws JMSException {
+    public void testConvertAndSendShouldReturnEqualsXProjectIdInReceivedMessageFromQueueByJmsListenerAfterXProjectIdWasSentByMultiTenantJmsTemplate() throws JMSException {
         Map<String, Object> prop = new HashMap<>();
         prop.put(CustomHeader.X_PROJECT_ID, TestConstant.TEST_TENANT_ID);
         queueJmsTemplate.convertAndSend(TestConstant.QUEUE_NAME, TestConstant.MESSAGE_TEXT, prop);
         ArgumentCaptor<TextMessage> messageCaptor = ArgumentCaptor.forClass(TextMessage.class);
-        Mockito.verify(queueMessageListenerSpy, Mockito.timeout(1000)).queueJmsListenerMethod(messageCaptor.capture());
+        Mockito.verify(queueMessageListenerSpy, Mockito.timeout(1000))
+                .queueJmsListenerMethod(messageCaptor.capture());
         TextMessage receivedMessage = messageCaptor.getValue();
         assertEquals(TestConstant.TEST_TENANT_ID, receivedMessage.getStringProperty(CustomHeader.X_PROJECT_ID));
     }
 
     @Test
-    public void testConvertAndSend_shouldReturnEqualsXProjectIdInReceivedMessageFromTopicByJmsListener_afterXProjectIdWasSentByMultiTenantJmsTemplate() throws JMSException {
+    public void testConvertAndSendShouldReturnEqualsXProjectIdInReceivedMessageFromTopicByJmsListenerAfterXProjectIdWasSentByMultiTenantJmsTemplate() throws JMSException {
         Map<String, Object> prop = new HashMap<>();
         prop.put(CustomHeader.X_PROJECT_ID, TestConstant.TEST_TENANT_ID);
         topicJmsTemplate.convertAndSend(TestConstant.TOPIC_NAME, TestConstant.MESSAGE_TEXT, prop);
         ArgumentCaptor<TextMessage> messageCaptor = ArgumentCaptor.forClass(TextMessage.class);
-        Mockito.verify(topicMessageListenerSpy, Mockito.timeout(100)).topicJmsListenerMethod(messageCaptor.capture());
+        Mockito.verify(topicMessageListenerSpy, Mockito.timeout(100))
+                .topicJmsListenerMethod(messageCaptor.capture());
         TextMessage receivedMessage = messageCaptor.getValue();
         assertEquals(TestConstant.TEST_TENANT_ID, receivedMessage.getStringProperty(CustomHeader.X_PROJECT_ID));
     }
 
     @Test
-    public void testReceiveMessageByJmsRequestInterceptor_shouldAddExceptionIntoExceptionHolderIfGetTenantInfoIsDefault_afterXProjectIdWasSentAsNull() {
+    public void testReceiveMessageByJmsRequestInterceptorShouldAddExceptionIntoExceptionHolderIfGetTenantInfoIsDefaultAfterXProjectIdWasSentAsNull() {
         Map<String, Object> prop = new HashMap<>();
         prop.put(CustomHeader.X_PROJECT_ID, null);
         topicJmsTemplate.convertAndSend(TestConstant.TOPIC_NAME, TestConstant.MESSAGE_TEXT, prop);
         ArgumentCaptor<TextMessage> messageCaptor = ArgumentCaptor.forClass(TextMessage.class);
-        Mockito.verify(topicMessageListenerSpy, Mockito.timeout(200)).topicJmsListenerMethod(messageCaptor.capture());
+        Mockito.verify(topicMessageListenerSpy, Mockito.timeout(200))
+                .topicJmsListenerMethod(messageCaptor.capture());
         if (exceptionHolder.isEmpty()) {
             fail();
         }

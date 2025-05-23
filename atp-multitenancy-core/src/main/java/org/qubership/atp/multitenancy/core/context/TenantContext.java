@@ -24,16 +24,36 @@ import java.util.Set;
 
 public final class TenantContext {
 
+    /**
+     * Default Tenant Name.
+     */
     private static final String DEFAULT_TENANT = "default";
-    private static final ThreadLocal<String> TENANT_INFO = new InheritableThreadLocal<>();
-    private static final Set<String> tenantIds = new HashSet<>();
-    private static final Map<String, String> tenantIdsPerCluster = new HashMap<>();
 
+    /**
+     * Tenant Info ThreadLocal String (inheritable).
+     */
+    private static final ThreadLocal<String> TENANT_INFO = new InheritableThreadLocal<>();
+
+    /**
+     * Set of Tenant ID Strings.
+     */
+    private static final Set<String> TENANT_IDS = new HashSet<>();
+
+    /**
+     * Map of ClusterId - TenantId (where TenantId resides).
+     */
+    private static final Map<String, String> TENANT_IDS_PER_CLUSTER = new HashMap<>();
+
+    /**
+     * Constructor.
+     */
     private TenantContext() {
     }
 
     /**
-     * return tenant info.
+     * Get Tenant Info.
+     *
+     * @return The current Tenant Info String.
      */
     public static String getTenantInfo() {
         if (null != TENANT_INFO.get()) {
@@ -42,37 +62,51 @@ public final class TenantContext {
         return DEFAULT_TENANT;
     }
 
-    public static void setTenantInfo(String tenant) {
+    /**
+     * Set Tenant Info.
+     *
+     * @param tenant String tenant id.
+     */
+    public static void setTenantInfo(final String tenant) {
         TENANT_INFO.set(tenant);
     }
 
+    /**
+     * Clear Tenant Info.
+     */
     public static void clear() {
         TENANT_INFO.remove();
     }
 
+    /**
+     * Set Default Tenant Info.
+     */
     public static void setDefaultTenantInfo() {
         TENANT_INFO.set(DEFAULT_TENANT);
     }
 
     /**
-     * Add tenant id by clustedId.
-     * @param clusterId clusterId
-     * @param tenantId tenantId
+     * Add tenantId under clusterId.
+     *
+     * @param clusterId String clusterId
+     * @param tenantId String tenantId
      */
-    public static void addTenantId(String clusterId, String tenantId) {
-        tenantIds.add(tenantId);
-        tenantIdsPerCluster.putIfAbsent(clusterId, tenantId);
+    public static void addTenantId(final String clusterId, final String tenantId) {
+        TENANT_IDS.add(tenantId);
+        TENANT_IDS_PER_CLUSTER.putIfAbsent(clusterId, tenantId);
     }
 
     /**
-     * Return tentant ids.
-     * @param oneTenantIdPerCluster specifies to return of a tenant identifier for a cluster or all tenant identifiers
-     * @return list of tenant ids
+     * Return List of String Tenant IDs.
+     *
+     * @param oneTenantIdPerCluster true to return one of tenant identifiers for a cluster,
+     *                             or false to return all tenant identifiers
+     * @return list of tenant IDs.
      */
-    public static Collection<String> getTenantIds(boolean oneTenantIdPerCluster) {
+    public static Collection<String> getTenantIds(final boolean oneTenantIdPerCluster) {
         if (oneTenantIdPerCluster) {
-            return tenantIdsPerCluster.values();
+            return TENANT_IDS_PER_CLUSTER.values();
         }
-        return tenantIds;
+        return TENANT_IDS;
     }
 }

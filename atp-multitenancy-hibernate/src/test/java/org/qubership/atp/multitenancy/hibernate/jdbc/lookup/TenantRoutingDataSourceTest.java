@@ -57,31 +57,74 @@ import liquibase.integration.spring.SpringLiquibase;
         DefaultPostgresCluster.class, HikariConfiguration.class})
 public class TenantRoutingDataSourceTest {
 
+    /**
+     * Additional Postgres Clusters configuration.
+     */
     @Autowired
     AdditionalPostgresClusters additionalPostgresClusters;
+
+    /**
+     * Default cluster.
+     */
     @Autowired
     DefaultPostgresCluster defaultPgCluster;
+
+    /**
+     * HikariConfig bean.
+     */
     @Autowired
     HikariConfig hikariConfig;
+
+    /**
+     * TenantRoutingDataSource object for tests.
+     */
     TenantRoutingDataSource tenantRoutingDataSource;
+
+    /**
+     * DataSources map.
+     */
     Map<Object, Object> dataSources = new HashMap<>();
+
+    /**
+     * TenantIdentifierResolver mock.
+     */
     @Mock
     private TenantIdentifierResolver tenantIdentifierResolverMock;
+
+    /**
+     * SpringLiquibase mock.
+     */
     @Mock
     private SpringLiquibase springLiquibaseMock;
+
+    /**
+     * ResourceLoader mock.
+     */
     @Mock
     private ResourceLoader resourceLoaderMock;
+
+    /**
+     * LiquibaseProperties mock.
+     */
     @Mock
     private LiquibaseProperties liquibasePropertiesMock;
 
+    /**
+     * Init dataSources.
+     *
+     * @throws Exception in case database exceptions.
+     */
     @Before
     public void setUp() throws Exception {
         tenantRoutingDataSource = new TenantRoutingDataSource(tenantIdentifierResolverMock, springLiquibaseMock,
                 resourceLoaderMock, additionalPostgresClusters, defaultPgCluster, hikariConfig, liquibasePropertiesMock);
     }
 
+    /**
+     * Test of reading of Additional Clusters Params from properties.
+     */
     @Test
-    public void testReadAdditionalClustersParamsFromProperties_shouldReturnTrueIfProjectUuidContainsInClusterOneProjects_whenClustersParamsReadFromApplicationProperties() {
+    public void testReadAdditionalClustersParamsFromPropertiesShouldReturnTrueIfProjectUuidContainsInClusterOneProjectsWhenClustersParamsReadFromApplicationProperties() {
         Iterator<AdditionalPostgresCluster> clusterIterator = additionalPostgresClusters.getClusters().iterator();
         List<String> cluster1Projects = new ArrayList<>();
         while (clusterIterator.hasNext()) {
@@ -93,23 +136,39 @@ public class TenantRoutingDataSourceTest {
         assertTrue(cluster1Projects.contains("3d6a138d-057b-4e35-8348-17aee2f2b0f8"));
     }
 
+    /**
+     * Test of default dataSource creation.
+     *
+     * @throws LiquibaseException in case Liquibase errors occurred.
+     */
     @Test
-    public void testCreateDefaultDataSource_shouldReturnDefaultDataSourceJdbcUrl_whenDefaultDataSourceCreated()
+    public void testCreateDefaultDataSourceShouldReturnDefaultDataSourceJdbcUrlWhenDefaultDataSourceCreated()
             throws LiquibaseException {
         DataSource defaultDataSource = tenantRoutingDataSource.createDefaultDataSource(defaultPgCluster);
         assertEquals("jdbc:postgresql://localhost:5432/default",
                 ((HikariDataSource) defaultDataSource).getJdbcUrl());
     }
 
+    /**
+     * Test of dataSources creation.
+     *
+     * @throws LiquibaseException in case Liquibase errors occurred.
+     */
     @Test
-    public void testCreateTargetDataSources_shouldReturnDataSourceJdbcUrlForTwoProjectIdFromDataSourcesMap_whenTargetDataSourcesCreated()
+    public void testCreateTargetDataSourcesShouldReturnDataSourceJdbcUrlForTwoProjectIdFromDataSourcesMapWhenTargetDataSourcesCreated()
             throws LiquibaseException {
         tenantRoutingDataSource.createTargetDataSources(additionalPostgresClusters, dataSources);
-        assertEquals("jdbc:postgresql://localhost:5432/cluster0", ((HikariDataSource) dataSources.get("ab70725d-318c-4d06-976a-e2c843d999e6")).getJdbcUrl());
+        assertEquals("jdbc:postgresql://localhost:5432/cluster0",
+                ((HikariDataSource) dataSources.get("ab70725d-318c-4d06-976a-e2c843d999e6")).getJdbcUrl());
     }
 
+    /**
+     * Test of Tenant IDs getting in case oneTenantIdPerCluster = true.
+     *
+     * @throws LiquibaseException in case Liquibase errors occurred.
+     */
     @Test
-    public void testGetTenantIdsWithOneTenantIdPerClusterParamIsTrue_shouldReturnCollectionOfOneTenantIdPerCluster_whenTargetDataSourcesCreated()
+    public void testGetTenantIdsWithOneTenantIdPerClusterParamIsTrueShouldReturnCollectionOfOneTenantIdPerClusterWhenTargetDataSourcesCreated()
             throws LiquibaseException {
         tenantRoutingDataSource.createTargetDataSources(additionalPostgresClusters, dataSources);
         Collection<String> tenantIdPerCluster = TenantContext.getTenantIds(true);
@@ -117,8 +176,13 @@ public class TenantRoutingDataSourceTest {
                 tenantIdPerCluster.toString());
     }
 
+    /**
+     * Test of Tenant IDs getting in case oneTenantIdPerCluster = false.
+     *
+     * @throws LiquibaseException in case Liquibase errors occurred.
+     */
     @Test
-    public void testGetTenantIdsWithOneTenantIdPerClusterParamIsFalse_shouldReturnCollectionOfAllTenantIds_whenTargetDataSourcesCreated()
+    public void testGetTenantIdsWithOneTenantIdPerClusterParamIsFalseShouldReturnCollectionOfAllTenantIdsWhenTargetDataSourcesCreated()
             throws LiquibaseException {
         tenantRoutingDataSource.createTargetDataSources(additionalPostgresClusters, dataSources);
         Collection<String> tenantIds = TenantContext.getTenantIds(false);
@@ -127,17 +191,26 @@ public class TenantRoutingDataSourceTest {
                 + "3d6a138d-057b-4e35-8348-17aee2f2b0f8]", tenantIds.toString());
     }
 
+    /**
+     * Test that dataSource is not created in case JDBC Url is empty.
+     *
+     * @throws LiquibaseException in case Liquibase errors occurred.
+     */
     @Test
-    public void testCreateTargetDataSources_shouldNotCreateDataSourceWithEmptyJdbcUrl_whenTargetDataSourcesCreating()
+    public void testCreateTargetDataSourcesShouldNotCreateDataSourceWithEmptyJdbcUrlWhenTargetDataSourcesCreating()
             throws LiquibaseException {
         tenantRoutingDataSource.createTargetDataSources(additionalPostgresClusters, dataSources);
         assertEquals(2, TenantContext.getTenantIds(true).size());
     }
 
+    /**
+     * Test that HikariConfig is successfully read and is inherited by the dataSource created.
+     *
+     * @throws LiquibaseException in case Liquibase errors occurred.
+     */
     @Test
-    public void testReadHikariConfigs_shouldReturnHikariIdleTimeOutEqualsFiftyFiveThousand_whenHikariPropertiesReadFromApplicationPropertiesFileAndDataSourceWasCreated() throws LiquibaseException {
+    public void testReadHikariConfigsShouldReturnHikariIdleTimeOutEqualsFiftyFiveThousandWhenHikariPropertiesReadFromApplicationPropertiesFileAndDataSourceWasCreated() throws LiquibaseException {
         DataSource defaultDataSource = tenantRoutingDataSource.createDefaultDataSource(defaultPgCluster);
-        assertEquals(55000,
-                ((HikariDataSource) defaultDataSource).getIdleTimeout());
+        assertEquals(55000, ((HikariDataSource) defaultDataSource).getIdleTimeout());
     }
 }
