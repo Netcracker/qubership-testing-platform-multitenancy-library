@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.qubership.atp.multitenancy</groupId>
         <artifactId>atp-multitenancy-parent-java</artifactId>
-        <version>${revision}</version>
+        <version>0.0.11-SNAPSHOT</version>
         <relativePath>../atp-multitenancy-parent-java/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
