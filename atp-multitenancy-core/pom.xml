@@ -3,12 +3,13 @@
     <parent>
         <groupId>org.qubership.atp.multitenancy</groupId>
         <artifactId>atp-multitenancy-parent-java</artifactId>
-        <version>0.0.12-SNAPSHOT</version>
+        <version>0.0.11-SNAPSHOT</version>
         <relativePath>../atp-multitenancy-parent-java/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>atp-multitenancy-core</artifactId>
+    <name>atp-multitenancy-core</name>
 
     <dependencies>
         <dependency>
