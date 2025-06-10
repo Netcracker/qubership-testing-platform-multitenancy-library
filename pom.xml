@@ -21,7 +21,7 @@
     </properties>
 
     <name>${project.groupId}:${project.artifactId}</name>
-    <description>Multitenancy library</description>
+    <description>Qubership Testing Platform Multitenancy library</description>
     <url>https://github.com/Netcracker/qubership-testing-platform-multitenancy-library</url>
     <licenses>
         <license>
@@ -39,7 +39,7 @@
     </developers>
     <scm>
         <connection>scm:git:https//github.com/Netcracker/qubership-testing-platform-multitenancy-library.git</connection>
-        <developerConnection>scm:git:https://github.com:Netcracker/qubership-testing-platform-multitenancy-library.git</developerConnection>
+        <developerConnection>scm:git:https://github.com/Netcracker/qubership-testing-platform-multitenancy-library.git</developerConnection>
         <url>scm:git:https://github.com/Netcracker/qubership-testing-platform-multitenancy-library/tree/main</url>
     </scm>
 
