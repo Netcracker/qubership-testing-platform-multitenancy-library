@@ -11,9 +11,9 @@ So, there is a 'Default Cluster' - PostgreSQL database where data of all project
 - For ITF-Executor Database, it's projects' configuration data,
 - For ITF-Reporting Database, it's projects' test execution results reported data.
 
-Default Cluster is enough for a service to work properly. 
+Default Cluster is enough for a service to work properly.
 - So, no extra cluster should be configured.
-- But, in case some projects generate very big load, and a Service and/or PostgreSQL cluster experience performance problems 
+- But, in case some projects generate very big load, and a Service and/or PostgreSQL cluster experience performance problems
 serving these projects with all others on the same cluster, extra clusters can be configured.
 - These clusters - ADDITIONAL CLUSTERS - are mapped to 1+ project ID served by the cluster.
 
@@ -24,7 +24,7 @@ Once configured, these clusters are initialized during service startup, and the 
 - All further processing is performed under the corresponding tenant, transparently for application level.
 
 That's what the library stands for.
-The current implementation contains interceptors for Http and Jms requests. 
+The current implementation contains interceptors for Http and Jms requests.
 It means, that if the service receives Http or Jms request, and the request contains proper header, the corresponding interceptor
 will process the request and set tenant context properly.
 
