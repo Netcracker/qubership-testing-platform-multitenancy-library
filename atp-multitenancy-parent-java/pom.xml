@@ -17,7 +17,7 @@
         <apache.commons>3.9</apache.commons>
         <openclover.version>4.2.0</openclover.version>
         <maven-surefire-plugin.version>2.22.0</maven-surefire-plugin.version>
-        <atp-auth-spring-boot-starter-version>1.2.65</atp-auth-spring-boot-starter-version>
+        <atp-auth-spring-boot-starter-version>1.2.64</atp-auth-spring-boot-starter-version>
     </properties>
     <dependencyManagement>
         <dependencies>

@@ -40,7 +40,7 @@
     <scm>
         <connection>scm:git:https//github.com/Netcracker/qubership-testing-platform-multitenancy-library.git</connection>
         <developerConnection>scm:git:https://github.com/Netcracker/qubership-testing-platform-multitenancy-library.git</developerConnection>
-        <url>scm:git:https://github.com/Netcracker/qubership-testing-platform-multitenancy-library/tree/main</url>
+        <url>scm:git:https://github.com/Netcracker/qubership-testing-platform-multitenancy-library.git</url>
       <tag>HEAD</tag>
   </scm>
 
@@ -98,7 +98,7 @@
                         <configuration>
                             <publishingServerId>central</publishingServerId>
                             <autoPublish>true</autoPublish>
-                            <waitUntil>published</waitUntil>
+                            <!-- <waitUntil>published</waitUntil> -->
                         </configuration>
                     </plugin>
                     <plugin>
