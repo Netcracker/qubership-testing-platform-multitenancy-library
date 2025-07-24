@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.qubership.atp.multitenancy</groupId>
     <artifactId>atp-multitenancy</artifactId>
-    <version>0.0.12-SNAPSHOT</version>
+    <version>0.0.12</version>
     <modules>
         <module>atp-multitenancy-parent-java</module>
         <module>atp-multitenancy-hibernate</module>
@@ -41,7 +41,7 @@
         <connection>scm:git:https//github.com/Netcracker/qubership-testing-platform-multitenancy-library.git</connection>
         <developerConnection>scm:git:https://github.com/Netcracker/qubership-testing-platform-multitenancy-library.git</developerConnection>
         <url>scm:git:https://github.com/Netcracker/qubership-testing-platform-multitenancy-library.git</url>
-      <tag>HEAD</tag>
+      <tag>v0.0.12</tag>
   </scm>
 
     <repositories>
