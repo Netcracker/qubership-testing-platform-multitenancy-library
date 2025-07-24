@@ -30,7 +30,7 @@
                 </exclusion>
                 <exclusion>
                     <groupId>org.qubership.atp.auth</groupId>
-                    <artifactId>atp-auth-spring-boot-starter</artifactId>
+                    <artifactId>atp-auth-models</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
