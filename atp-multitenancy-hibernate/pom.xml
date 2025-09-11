@@ -11,7 +11,7 @@
     <name>atp-multitenancy-hibernate</name>
 
     <properties>
-        <liquibase.version>4.4.3</liquibase.version>
+        <liquibase.version>4.8.0</liquibase.version>
     </properties>
 
     <dependencies>

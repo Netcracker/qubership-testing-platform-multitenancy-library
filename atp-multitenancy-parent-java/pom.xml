@@ -17,7 +17,11 @@
         <apache.commons>3.9</apache.commons>
         <openclover.version>4.2.0</openclover.version>
         <maven-surefire-plugin.version>2.22.0</maven-surefire-plugin.version>
-        <atp-auth-spring-boot-starter-version>1.2.64</atp-auth-spring-boot-starter-version>
+
+        <spring.security.version>5.7.13</spring.security.version>
+        <io.undertow.version>2.2.36.Final</io.undertow.version>
+        <tomcat-embed.version>9.0.108</tomcat-embed.version>
+        <atp-auth.version>1.2.73</atp-auth.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -37,22 +41,22 @@
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-web</artifactId>
-                <version>5.7.13</version>
+                <version>${spring.security.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-core</artifactId>
-                <version>5.7.13</version>
+                <version>${spring.security.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.undertow</groupId>
                 <artifactId>undertow-core</artifactId>
-                <version>2.2.36.Final</version>
+                <version>${io.undertow.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.undertow</groupId>
                 <artifactId>undertow-servlet</artifactId>
-                <version>2.2.36.Final</version>
+                <version>${io.undertow.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.kafka</groupId>
@@ -62,7 +66,17 @@
             <dependency>
                 <groupId>org.apache.tomcat.embed</groupId>
                 <artifactId>tomcat-embed-core</artifactId>
-                <version>9.0.99</version>
+                <version>${tomcat-embed.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-websocket</artifactId>
+                <version>${tomcat-embed.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-el</artifactId>
+                <version>${tomcat-embed.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.xmlunit</groupId>
@@ -99,7 +113,7 @@
             <dependency>
                 <groupId>org.qubership.atp.auth</groupId>
                 <artifactId>atp-auth-models</artifactId>
-                <version>${atp-auth-spring-boot-starter-version}</version>
+                <version>${atp-auth.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.activemq.tooling</groupId>
