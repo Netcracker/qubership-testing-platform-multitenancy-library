@@ -21,7 +21,7 @@
         <spring.security.version>5.7.13</spring.security.version>
         <io.undertow.version>2.2.36.Final</io.undertow.version>
         <tomcat-embed.version>9.0.108</tomcat-embed.version>
-        <atp-auth.version>1.2.73</atp-auth.version>
+        <atp-auth.version>1.2.75</atp-auth.version>
     </properties>
     <dependencyManagement>
         <dependencies>
