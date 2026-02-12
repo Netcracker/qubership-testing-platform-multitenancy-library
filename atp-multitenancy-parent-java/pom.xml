@@ -13,15 +13,18 @@
         <spring.boot.version>2.7.18</spring.boot.version>
         <spring.cloud.version>2021.0.8</spring.cloud.version>
         <commons-lang.version>2.6</commons-lang.version>
-        <google.guava.version>32.0.0-jre</google.guava.version>
-        <apache.commons>3.9</apache.commons>
+        <commons-lang3.version>3.18.0</commons-lang3.version>
+        <google.guava.version>32.0.1-jre</google.guava.version>
         <openclover.version>4.2.0</openclover.version>
         <maven-surefire-plugin.version>2.22.0</maven-surefire-plugin.version>
 
         <spring.security.version>5.7.13</spring.security.version>
-        <io.undertow.version>2.2.36.Final</io.undertow.version>
-        <tomcat-embed.version>9.0.108</tomcat-embed.version>
+        <io.undertow.version>2.2.39.Final</io.undertow.version>
+        <tomcat-embed.version>9.0.110</tomcat-embed.version>
+        <netty.version>4.1.125.Final</netty.version>
+        <logback.version>1.2.13</logback.version>
         <atp-auth.version>1.2.75</atp-auth.version>
+        <atp-common.version>0.0.47</atp-common.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -59,9 +62,14 @@
                 <version>${io.undertow.version}</version>
             </dependency>
             <dependency>
+                <groupId>io.undertow</groupId>
+                <artifactId>undertow-websockets-jsr</artifactId>
+                <version>${io.undertow.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.apache.kafka</groupId>
                 <artifactId>kafka-clients</artifactId>
-                <version>3.7.2</version>
+                <version>3.9.1</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.tomcat.embed</groupId>
@@ -101,19 +109,14 @@
                 <version>${google.guava.version}</version>
             </dependency>
             <dependency>
-                <groupId>commons-lang</groupId>
-                <artifactId>commons-lang</artifactId>
-                <version>${commons-lang.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.openclover</groupId>
-                <artifactId>clover</artifactId>
-                <version>${openclover.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>org.qubership.atp.auth</groupId>
                 <artifactId>atp-auth-models</artifactId>
                 <version>${atp-auth.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.qubership.atp.common</groupId>
+                <artifactId>qubership-atp-common-logging</artifactId>
+                <version>${atp-common.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.activemq.tooling</groupId>
@@ -131,6 +134,36 @@
                         <artifactId>hamcrest-core</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+                <version>1.6.0</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-codec-http</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-codec-http2</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-core</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
