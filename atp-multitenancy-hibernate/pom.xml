@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.qubership.atp.multitenancy</groupId>
         <artifactId>atp-multitenancy-parent-java</artifactId>
-        <version>0.0.14-SNAPSHOT</version>
+        <version>1.0.0-SNAPSHOT</version>
         <relativePath>../atp-multitenancy-parent-java/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -11,7 +11,7 @@
     <name>atp-multitenancy-hibernate</name>
 
     <properties>
-        <liquibase.version>4.8.0</liquibase.version>
+        <liquibase.version>4.24.0</liquibase.version>
     </properties>
 
     <dependencies>
@@ -107,6 +107,12 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.qubership.atp.multitenancy</groupId>
+            <artifactId>atp-multitenancy-core</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 

@@ -19,17 +19,17 @@ package org.qubership.atp.multitenancy.interceptor.jms;
 import java.util.Map;
 import java.util.Objects;
 
-import javax.jms.JMSException;
-import javax.jms.Message;
-
 import org.qubership.atp.multitenancy.core.header.CustomHeader;
 import org.springframework.jms.JmsException;
 import org.springframework.jms.core.JmsTemplate;
 
+import jakarta.jms.JMSException;
+import jakarta.jms.Message;
+
 /**
- * This class overrides convertAndSend method that can hook jms message before sending and set properties to javax.jms.
- * Message that provided from input parameters.
- * <p>At this moment we set property to javax.jms.Message - x-project-id as StringProperty, if input properties isn't
+ * This class overrides convertAndSend method that can hook jms message before sending and set properties to
+ * jakarta.jms.Message that provided from input parameters.
+ * <p>At this moment we set property to jakarta.jms.Message - x-project-id as StringProperty, if input properties isn't
  * contains x-project-id, will set "default" tenantId to Message</p>
  */
 public class MultiTenantJmsTemplate extends JmsTemplate implements AtpJmsTemplate {

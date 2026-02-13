@@ -25,9 +25,6 @@ import static org.mockito.Mockito.when;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,11 +34,14 @@ import org.qubership.atp.multitenancy.core.context.TenantContext;
 import org.qubership.atp.multitenancy.core.header.CustomHeader;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 public class MultiTenantHttpRequestInterceptorTest {
 
     private MultiTenantHttpRequestInterceptor multiTenantHttpRequestInterceptor;
-    private String TENANT_ID = "3d6a138d-057b-4e35-8348-17aee2f2b0f8";
+    private final String TENANT_ID = "3d6a138d-057b-4e35-8348-17aee2f2b0f8";
     @Mock
     private HttpServletRequest requestMock;
     @Mock

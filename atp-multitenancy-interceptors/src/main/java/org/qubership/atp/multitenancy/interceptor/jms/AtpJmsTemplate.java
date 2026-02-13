@@ -18,12 +18,12 @@ package org.qubership.atp.multitenancy.interceptor.jms;
 
 import java.util.Map;
 
-import javax.jms.ConnectionFactory;
-
 import org.springframework.jms.JmsException;
 import org.springframework.jms.core.JmsOperations;
 import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.lang.Nullable;
+
+import jakarta.jms.ConnectionFactory;
 
 public interface AtpJmsTemplate extends JmsOperations {
 

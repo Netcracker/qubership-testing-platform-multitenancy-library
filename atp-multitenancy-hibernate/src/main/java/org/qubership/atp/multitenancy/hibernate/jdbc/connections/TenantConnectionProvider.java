@@ -22,7 +22,6 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
-import org.hibernate.MultiTenancyStrategy;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.engine.jdbc.connections.spi.MultiTenantConnectionProvider;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernatePropertiesCustomizer;
@@ -65,27 +64,37 @@ public class TenantConnectionProvider implements MultiTenantConnectionProvider, 
         connection.close();
     }
 
+    @Override
+    public Connection getConnection(Object o) throws SQLException {
+        return dataSource.getConnection();
+    }
+
+    @Override
+    public void releaseConnection(Object o, Connection connection) throws SQLException {
+        connection.close();
+    }
+
     /**
      * Get connection to the schema + dataSource;
      * Actually, schema is ignored, So, connection is to the default schema of the dataSource.
+     * Left from previous Spring Boot implementation (2.7.x). To be deleted after checking.
      *
      * @param schema String schema name
      * @return a connection to the dataSource
      * @throws SQLException if a database error occurs.
      */
-    @Override
     public Connection getConnection(final String schema) throws SQLException {
         return dataSource.getConnection();
     }
 
     /**
      * Release the connection.
+     * Left from previous Spring Boot implementation (2.7.x). To be deleted after checking.
      *
      * @param s Tenant identifier
      * @param connection Connection to be closed
      * @throws SQLException if a database error occurs.
      */
-    @Override
     public void releaseConnection(final String s, final Connection connection) throws SQLException {
         connection.close();
     }
@@ -130,7 +139,6 @@ public class TenantConnectionProvider implements MultiTenantConnectionProvider, 
      */
     @Override
     public void customize(final Map<String, Object> hibernateProperties) {
-        hibernateProperties.put(AvailableSettings.MULTI_TENANT, MultiTenancyStrategy.DATABASE);
         hibernateProperties.put(AvailableSettings.MULTI_TENANT_CONNECTION_PROVIDER, this);
     }
 }
