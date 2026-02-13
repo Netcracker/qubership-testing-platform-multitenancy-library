@@ -123,7 +123,7 @@ jobs:
     outputs:
       dockerfile_exists: ${{ steps.check_dockerfile.outputs.df_exists }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: "Check Dockerfile existence"
         id: check_dockerfile
         shell: bash
