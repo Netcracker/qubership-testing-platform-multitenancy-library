@@ -22,6 +22,7 @@
         <io.undertow.version>2.2.39.Final</io.undertow.version>
         <tomcat-embed.version>9.0.110</tomcat-embed.version>
         <netty.version>4.1.125.Final</netty.version>
+        <activemq.version>5.16.8</activemq.version>
         <logback.version>1.2.13</logback.version>
         <atp-auth.version>1.2.75</atp-auth.version>
         <atp-common.version>0.0.47</atp-common.version>
@@ -121,7 +122,22 @@
             <dependency>
                 <groupId>org.apache.activemq.tooling</groupId>
                 <artifactId>activemq-junit</artifactId>
-                <version>5.16.5</version>
+                <version>${activemq.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.activemq</groupId>
+                <artifactId>activemq-broker</artifactId>
+                <version>${activemq.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.activemq</groupId>
+                <artifactId>activemq-client</artifactId>
+                <version>${activemq.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.activemq</groupId>
+                <artifactId>activemq-openwire-legacy</artifactId>
+                <version>${activemq.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.junit.vintage</groupId>
