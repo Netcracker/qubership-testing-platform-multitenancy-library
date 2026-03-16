@@ -134,7 +134,9 @@ public class TenantRoutingDataSource extends AbstractRoutingDataSource {
         springLiquibase.setResourceLoader(resourceLoader);
         springLiquibase.setDataSource(dataSource);
         springLiquibase.setChangeLog(liquibaseProperties.getChangeLog());
-        springLiquibase.setContexts(liquibaseProperties.getContexts());
+        if (this.springLiquibase.getContexts() != null && !this.springLiquibase.getContexts().isEmpty()) {
+            springLiquibase.setContexts(String.join(",", this.springLiquibase.getContexts()));
+        }
         springLiquibase.setDefaultSchema(liquibaseProperties.getDefaultSchema());
         springLiquibase.setDropFirst(liquibaseProperties.isDropFirst());
         springLiquibase.setShouldRun(liquibaseProperties.isEnabled());

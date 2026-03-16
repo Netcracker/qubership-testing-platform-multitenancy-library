@@ -3,12 +3,12 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.11</version>
+        <version>3.5.11</version>
         <relativePath />
     </parent>
     <groupId>org.qubership.atp.multitenancy</groupId>
     <artifactId>atp-multitenancy</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
     <modules>
         <module>atp-multitenancy-parent-java</module>
         <module>atp-multitenancy-hibernate</module>
