@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 package org.qubership.atp.multitenancy.hibernate.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.sql.init.dependency.DependsOnDatabaseInitialization;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -32,6 +33,7 @@ public class HikariConfiguration {
      */
     @Bean(name = "hikariConfig")
     @ConfigurationProperties(prefix = "spring.datasource.hikari")
+    @DependsOnDatabaseInitialization
     public HikariConfig hikariConfig() {
         return new HikariConfig();
     }

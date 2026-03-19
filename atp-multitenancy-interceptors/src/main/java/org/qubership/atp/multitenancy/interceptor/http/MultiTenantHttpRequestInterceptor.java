@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -66,7 +66,7 @@ public class MultiTenantHttpRequestInterceptor implements HandlerInterceptor {
         }
         boolean permitted = policyEnforcement.checkAccess(tenantId, Operation.READ.toString());
         if (!permitted) {
-            response.getWriter().write(String.format("Access denied to %s", TextEscapeUtils.escapeEntities(tenantId)));
+            response.getWriter().write("Access denied to %s".formatted(TextEscapeUtils.escapeEntities(tenantId)));
             response.setStatus(403);
             return false;
         }

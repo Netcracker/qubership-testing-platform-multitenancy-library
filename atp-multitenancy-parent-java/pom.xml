@@ -23,6 +23,7 @@
         <atp-auth.version>2.0.3-SNAPSHOT</atp-auth.version>
         <atp-common.version>1.0.1-SNAPSHOT</atp-common.version>
     </properties>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -68,11 +69,6 @@
                 <groupId>io.undertow</groupId>
                 <artifactId>undertow-websockets-jsr</artifactId>
                 <version>${io.undertow.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.kafka</groupId>
-                <artifactId>kafka-clients</artifactId>
-                <version>3.9.1</version>
             </dependency>
             <!-- Let Spring Boot to manage them... 10.1.40 version is in dependency tree
             <dependency>
@@ -128,6 +124,17 @@
                 <artifactId>activemq-junit</artifactId>
                 <version>6.1.6</version>
             </dependency>
+            <dependency>
+                <groupId>org.apache.activemq</groupId>
+                <artifactId>activemq-broker</artifactId>
+                <version>6.1.6</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>javax.jms</groupId>
+                        <artifactId>javax.jms-api</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
             <!-- Let Spring Boot to manage them... 6.1.6 version is in dependency tree
             <dependency>
                 <groupId>org.apache.activemq</groupId>
@@ -156,6 +163,12 @@
                         <artifactId>hamcrest-core</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-migrationsupport</artifactId>
+                <version>5.12.2</version>
+                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>

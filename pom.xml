@@ -44,7 +44,7 @@
         <developerConnection>scm:git:https://github.com/Netcracker/qubership-testing-platform-multitenancy-library.git</developerConnection>
         <url>scm:git:https://github.com/Netcracker/qubership-testing-platform-multitenancy-library.git</url>
       <tag>HEAD</tag>
-  </scm>
+    </scm>
 
     <repositories>
         <!-- Maven Central repository for release versions -->
@@ -173,7 +173,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.13.0</version>
+                <version>3.15.0</version>
                 <configuration>
                     <release>21</release>
                     <parameters>true</parameters>
@@ -187,7 +187,6 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
-                <version>2.18.0</version>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -215,6 +214,23 @@
                 </executions>
             </plugin>
         </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <annotationProcessorPaths>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <version>1.18.44</version>
+                            </path>
+                        </annotationProcessorPaths>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 
     <pluginRepositories>

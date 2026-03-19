@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -16,16 +16,15 @@
 
 package org.qubership.atp.multitenancy.interceptor.jms;
 
-import static org.junit.Assert.assertEquals;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.activemq.junit.EmbeddedActiveMQBroker;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.qubership.atp.multitenancy.core.header.CustomHeader;
@@ -33,15 +32,15 @@ import org.qubership.atp.multitenancy.interceptor.jms.config.QueueMessageListene
 import org.qubership.atp.multitenancy.interceptor.jms.config.TestConfiguration;
 import org.qubership.atp.multitenancy.interceptor.jms.config.TopicMessageListener;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 
 import jakarta.jms.JMSException;
 import jakarta.jms.TextMessage;
 import lombok.extern.slf4j.Slf4j;
 
-@RunWith(SpringRunner.class)
+@SpringBootTest
 @Slf4j
 @ContextConfiguration(classes = {TestConfiguration.class, QueueMessageListener.class, TopicMessageListener.class})
 public class MultiTenantJmsInterceptorTest {
@@ -49,8 +48,17 @@ public class MultiTenantJmsInterceptorTest {
     /**
      * Embedded ActiveMq broker.
      */
-    @ClassRule
     public static EmbeddedActiveMQBroker embeddedBroker = new EmbeddedActiveMQBroker();
+
+    @BeforeAll
+    public static void beforeClass() {
+        embeddedBroker.start();
+    }
+
+    @AfterAll
+    public static void afterClass() {
+        embeddedBroker.stop();
+    }
 
     /**
      * List of exceptions.
@@ -73,13 +81,13 @@ public class MultiTenantJmsInterceptorTest {
     /**
      * queueMessageListenerSpy bean.
      */
-    @SpyBean
+    @MockitoSpyBean
     private QueueMessageListener queueMessageListenerSpy;
 
     /**
      * topicMessageListenerSpy bean.
      */
-    @SpyBean
+    @MockitoSpyBean
     private TopicMessageListener topicMessageListenerSpy;
 
     /**
@@ -92,9 +100,9 @@ public class MultiTenantJmsInterceptorTest {
         Map<String, Object> prop = new HashMap<>();
         prop.put(CustomHeader.X_PROJECT_ID, TestConstant.TEST_TENANT_ID);
         embeddedBroker.pushMessageWithProperties(TestConstant.QUEUE_NAME, TestConstant.MESSAGE_TEXT, prop);
-        assertEquals(1, embeddedBroker.getMessageCount(TestConstant.QUEUE_NAME)); // check that message in queue
+        Assertions.assertEquals(1, embeddedBroker.getMessageCount(TestConstant.QUEUE_NAME)); // check that message in queue
         Thread.sleep(100); //wait for consumer receive message
-        assertEquals(0, embeddedBroker.getMessageCount(TestConstant.QUEUE_NAME)); // check that message consumed
+        Assertions.assertEquals(0, embeddedBroker.getMessageCount(TestConstant.QUEUE_NAME)); // check that message consumed
         if (!exceptionHolder.isEmpty()) {
             fail();
         }
@@ -130,7 +138,7 @@ public class MultiTenantJmsInterceptorTest {
         Mockito.verify(queueMessageListenerSpy, Mockito.timeout(1000))
                 .queueJmsListenerMethod(messageCaptor.capture());
         TextMessage receivedMessage = messageCaptor.getValue();
-        assertEquals(TestConstant.TEST_TENANT_ID, receivedMessage.getStringProperty(CustomHeader.X_PROJECT_ID));
+        Assertions.assertEquals(TestConstant.TEST_TENANT_ID, receivedMessage.getStringProperty(CustomHeader.X_PROJECT_ID));
     }
 
     /**
@@ -147,7 +155,7 @@ public class MultiTenantJmsInterceptorTest {
         Mockito.verify(topicMessageListenerSpy, Mockito.timeout(100))
                 .topicJmsListenerMethod(messageCaptor.capture());
         TextMessage receivedMessage = messageCaptor.getValue();
-        assertEquals(TestConstant.TEST_TENANT_ID, receivedMessage.getStringProperty(CustomHeader.X_PROJECT_ID));
+        Assertions.assertEquals(TestConstant.TEST_TENANT_ID, receivedMessage.getStringProperty(CustomHeader.X_PROJECT_ID));
     }
 
     /**

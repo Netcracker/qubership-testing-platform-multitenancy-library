@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -123,8 +123,8 @@ public class TenantRoutingDataSource extends AbstractRoutingDataSource {
         dataSourceBuilder.password(password);
         dataSourceBuilder.url(url);
         DataSource dataSource = dataSourceBuilder.build();
-        if (dataSource instanceof HikariDataSource) {
-            setHikariProperties((HikariDataSource) dataSource);
+        if (dataSource instanceof HikariDataSource source) {
+            setHikariProperties(source);
         }
         migrateDataSource(dataSource);
         return dataSource;
@@ -171,9 +171,9 @@ public class TenantRoutingDataSource extends AbstractRoutingDataSource {
                                          final Map<Object, Object> targetDataSources,
                                          final AdditionalPostgresCluster cluster) {
         Assert.notNull(projectUuids,
-                String.format("projectUuids property is null for additional cluster (url): %s", cluster.getUrl()));
+                "projectUuids property is null for additional cluster (url): %s".formatted(cluster.getUrl()));
         Assert.notEmpty(projectUuids,
-                String.format("projectUuids property is empty for additional cluster (url): %s", cluster.getUrl()));
+                "projectUuids property is empty for additional cluster (url): %s".formatted(cluster.getUrl()));
         for (String projectUuid : projectUuids) {
             targetDataSources.put(projectUuid, dataSource);
             TenantContext.addTenantId(cluster.getUrl(), projectUuid);

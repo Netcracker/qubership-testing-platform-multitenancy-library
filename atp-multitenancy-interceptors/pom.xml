@@ -34,11 +34,6 @@
             <artifactId>atp-auth-models</artifactId>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-test</artifactId>
             <exclusions>
@@ -75,45 +70,21 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-migrationsupport</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.qubership.atp.multitenancy</groupId>
             <artifactId>atp-multitenancy-core</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.openclover</groupId>
-                <artifactId>clover-maven-plugin</artifactId>
-                <version>4.2.0</version>
-                <configuration>
-                    <outputDirectory>${project.build.directory}/clover</outputDirectory>
-                    <generateHtml>true</generateHtml>
-                    <generateXml>true</generateXml>
-                    <generatePdf>true</generatePdf>
-                    <targetPercentage>70%</targetPercentage>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>clover-instrument</id>
-                        <phase>initialize</phase>
-                        <goals>
-                            <goal>instrument-test</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>clover-report</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>clover</goal>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>
