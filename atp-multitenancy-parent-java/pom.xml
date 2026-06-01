@@ -10,18 +10,21 @@
     <name>atp-multitenancy-parent-java</name>
     <packaging>pom</packaging>
     <properties>
-        <spring.boot.version>3.5.11</spring.boot.version>
-        <spring.cloud.version>2025.0.1</spring.cloud.version>
+        <spring.boot.version>3.5.14</spring.boot.version>
+        <spring.cloud.version>2025.0.2</spring.cloud.version>
         <jakarta.servlet-api.version>6.1.0</jakarta.servlet-api.version>
         <jakarta.jms-api.version>3.1.0</jakarta.jms-api.version>
 
         <io.undertow.version>2.3.21.Final</io.undertow.version>
-        <netty.version>4.1.125.Final</netty.version> <!-- 4.1.119.Final is from Spring Boot -->
-        <google.guava.version>32.0.1-jre</google.guava.version> <!-- 32.0.1-jre is from atp-auth -->
-        <commons-lang3.version>3.18.0</commons-lang3.version> <!-- But, 3.14.0 is from hibernate and atp-common... -->
+        <netty.version>4.1.132.Final</netty.version>
+        <google.guava.version>32.0.1-jre</google.guava.version>
+        <commons-lang3.version>3.18.0</commons-lang3.version>
+        <httpclient5.version>5.4.4</httpclient5.version>
+        <httpcore5.version>5.3.4</httpcore5.version>
+        <mockito.version>5.23.0</mockito.version>
 
-        <atp-auth.version>2.0.3-SNAPSHOT</atp-auth.version>
-        <atp-common.version>1.0.1-SNAPSHOT</atp-common.version>
+        <atp-auth.version>2.0.0</atp-auth.version>
+        <atp-common.version>1.0.0</atp-common.version>
     </properties>
 
     <dependencyManagement>
@@ -43,18 +46,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <!-- Let Spring Boot to manage them... 6.3.9 version is in dependency tree
-            <dependency>
-                <groupId>org.springframework.security</groupId>
-                <artifactId>spring-security-web</artifactId>
-                <version>${spring.security.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.security</groupId>
-                <artifactId>spring-security-core</artifactId>
-                <version>${spring.security.version}</version>
-            </dependency>
-            -->
             <dependency>
                 <groupId>io.undertow</groupId>
                 <artifactId>undertow-core</artifactId>
@@ -70,23 +61,6 @@
                 <artifactId>undertow-websockets-jsr</artifactId>
                 <version>${io.undertow.version}</version>
             </dependency>
-            <!-- Let Spring Boot to manage them... 10.1.40 version is in dependency tree
-            <dependency>
-                <groupId>org.apache.tomcat.embed</groupId>
-                <artifactId>tomcat-embed-core</artifactId>
-                <version>${tomcat-embed.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.tomcat.embed</groupId>
-                <artifactId>tomcat-embed-websocket</artifactId>
-                <version>${tomcat-embed.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.tomcat.embed</groupId>
-                <artifactId>tomcat-embed-el</artifactId>
-                <version>${tomcat-embed.version}</version>
-            </dependency>
-            -->
             <dependency>
                 <groupId>org.xmlunit</groupId>
                 <artifactId>xmlunit-core</artifactId>
@@ -135,27 +109,10 @@
                     </exclusion>
                 </exclusions>
             </dependency>
-            <!-- Let Spring Boot to manage them... 6.1.6 version is in dependency tree
-            <dependency>
-                <groupId>org.apache.activemq</groupId>
-                <artifactId>activemq-broker</artifactId>
-                <version>${activemq.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.activemq</groupId>
-                <artifactId>activemq-client</artifactId>
-                <version>${activemq.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.activemq</groupId>
-                <artifactId>activemq-openwire-legacy</artifactId>
-                <version>${activemq.version}</version>
-            </dependency>
-            -->
             <dependency>
                 <groupId>org.junit.vintage</groupId>
                 <artifactId>junit-vintage-engine</artifactId>
-                <version>5.9.3</version>
+                <version>5.12.2</version>
                 <scope>test</scope>
                 <exclusions>
                     <exclusion>
@@ -185,22 +142,64 @@
                 <artifactId>netty-codec-http2</artifactId>
                 <version>${netty.version}</version>
             </dependency>
-            <!-- Let Spring Boot to manage them... 1.5.18 version is in dependency tree
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-classic</artifactId>
-                <version>${logback.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-core</artifactId>
-                <version>${logback.version}</version>
-            </dependency>
-            -->
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>${commons-lang3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk18on</artifactId>
+                <version>1.84</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents.client5</groupId>
+                <artifactId>httpclient5</artifactId>
+                <version>${httpclient5.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents.client5</groupId>
+                <artifactId>httpclient5-fluent</artifactId>
+                <version>${httpclient5.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents.core5</groupId>
+                <artifactId>httpcore5</artifactId>
+                <version>${httpcore5.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents.core5</groupId>
+                <artifactId>httpcore5-h2</artifactId>
+                <version>${httpcore5.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate.orm</groupId>
+                <artifactId>hibernate-core</artifactId>
+                <version>6.5.3.Final</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <version>${spring.boot.version}</version>
+                <scope>test</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.vaadin.external.google</groupId>
+                        <artifactId>android-json</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-junit-jupiter</artifactId>
+                <version>${mockito.version}</version>
+                <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
