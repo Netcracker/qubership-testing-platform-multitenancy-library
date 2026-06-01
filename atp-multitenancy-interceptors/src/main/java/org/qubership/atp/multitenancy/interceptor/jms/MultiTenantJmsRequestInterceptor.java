@@ -18,21 +18,21 @@ package org.qubership.atp.multitenancy.interceptor.jms;
 
 import java.util.Objects;
 
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.MessageConsumer;
-
 import org.qubership.atp.multitenancy.core.context.TenantContext;
 import org.qubership.atp.multitenancy.core.header.CustomHeader;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 import org.springframework.jms.listener.DefaultMessageListenerContainer;
 import org.springframework.lang.NonNull;
 
+import jakarta.jms.JMSException;
+import jakarta.jms.Message;
+import jakarta.jms.MessageConsumer;
+
 public class MultiTenantJmsRequestInterceptor {
 
     /**
      * Return DefaultJmsListenerContainerFactory instance with request interceptor, that receive jms message, set
-     * x-project-id StringProperty value from javax.jms.Message to TenantContext (will use to getTenantInfo to get
+     * x-project-id StringProperty value from jakarta.jms.Message to TenantContext (will use to getTenantInfo to get
      * data from necessary db\schema\cluster).
      *
      * @return {@link DefaultJmsListenerContainerFactory} with multi-tenant jms message interceptor.

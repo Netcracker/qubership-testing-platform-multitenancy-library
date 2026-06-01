@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -18,9 +18,6 @@ package org.qubership.atp.multitenancy.interceptor.http;
 
 import java.io.IOException;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.qubership.atp.auth.springbootstarter.entities.Operation;
 import org.qubership.atp.auth.springbootstarter.security.permissions.PolicyEnforcement;
 import org.qubership.atp.multitenancy.core.context.TenantContext;
@@ -29,6 +26,9 @@ import org.springframework.lang.Nullable;
 import org.springframework.security.web.util.TextEscapeUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 public class MultiTenantHttpRequestInterceptor implements HandlerInterceptor {
 
@@ -58,8 +58,7 @@ public class MultiTenantHttpRequestInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(final HttpServletRequest request,
                              final HttpServletResponse response,
-                             final Object handler)
-            throws IOException {
+                             final Object handler) throws IOException {
         String tenantId = request.getHeader(CustomHeader.X_PROJECT_ID);
         if (tenantId == null) {
             TenantContext.setDefaultTenantInfo();
@@ -67,7 +66,7 @@ public class MultiTenantHttpRequestInterceptor implements HandlerInterceptor {
         }
         boolean permitted = policyEnforcement.checkAccess(tenantId, Operation.READ.toString());
         if (!permitted) {
-            response.getWriter().write(String.format("Access denied to %s", TextEscapeUtils.escapeEntities(tenantId)));
+            response.getWriter().write("Access denied to %s".formatted(TextEscapeUtils.escapeEntities(tenantId)));
             response.setStatus(403);
             return false;
         }

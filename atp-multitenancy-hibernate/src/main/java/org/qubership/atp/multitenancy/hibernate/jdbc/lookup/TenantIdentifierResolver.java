@@ -18,7 +18,6 @@ package org.qubership.atp.multitenancy.hibernate.jdbc.lookup;
 
 import java.util.Map;
 
-import org.hibernate.MultiTenancyStrategy;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 import org.qubership.atp.multitenancy.core.context.TenantContext;
@@ -54,7 +53,6 @@ public class TenantIdentifierResolver implements CurrentTenantIdentifierResolver
      */
     @Override
     public void customize(final Map<String, Object> hibernateProperties) {
-        hibernateProperties.put(AvailableSettings.MULTI_TENANT, MultiTenancyStrategy.DATABASE);
         hibernateProperties.put(AvailableSettings.MULTI_TENANT_IDENTIFIER_RESOLVER, this);
     }
 }

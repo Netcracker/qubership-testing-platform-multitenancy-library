@@ -3,16 +3,12 @@
     <parent>
         <groupId>org.qubership.atp.multitenancy</groupId>
         <artifactId>atp-multitenancy-parent-java</artifactId>
-        <version>0.0.14-SNAPSHOT</version>
+        <version>1.0.0-SNAPSHOT</version>
         <relativePath>../atp-multitenancy-parent-java/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>atp-multitenancy-hibernate</artifactId>
     <name>atp-multitenancy-hibernate</name>
-
-    <properties>
-        <liquibase.version>4.8.0</liquibase.version>
-    </properties>
 
     <dependencies>
         <dependency>
@@ -87,16 +83,10 @@
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
-            <version>${liquibase.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -108,40 +98,12 @@
             <artifactId>spring-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.qubership.atp.multitenancy</groupId>
+            <artifactId>atp-multitenancy-core</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.openclover</groupId>
-                <artifactId>clover-maven-plugin</artifactId>
-                <version>4.2.0</version>
-                <configuration>
-                    <outputDirectory>${project.build.directory}/clover</outputDirectory>
-                    <generateHtml>true</generateHtml>
-                    <generateXml>true</generateXml>
-                    <generatePdf>true</generatePdf>
-                    <targetPercentage>0%</targetPercentage>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>clover-instrument</id>
-                        <phase>initialize</phase>
-                        <goals>
-                            <goal>instrument-test</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>clover-report</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>clover</goal>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

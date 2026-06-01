@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -27,6 +27,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
+import org.springframework.boot.sql.init.dependency.DependsOnDatabaseInitialization;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
@@ -107,6 +108,7 @@ public class MultiTenantDataSourceConfiguration {
      */
     @Bean
     @DependsOn(value = "springLiquibase")
+    @DependsOnDatabaseInitialization
     public TenantRoutingDataSource tenantRoutingDataSource(
             final TenantIdentifierResolver tenantIdentifierResolver,
             final DefaultPostgresCluster defaultPostgresCluster,
@@ -126,6 +128,7 @@ public class MultiTenantDataSourceConfiguration {
      * @return new TenantConnectionProvider object configured with dataSource.
      */
     @Bean
+    @DependsOnDatabaseInitialization
     public TenantConnectionProvider tenantConnectionProvider(final DataSource dataSource) {
         return new TenantConnectionProvider(dataSource);
     }

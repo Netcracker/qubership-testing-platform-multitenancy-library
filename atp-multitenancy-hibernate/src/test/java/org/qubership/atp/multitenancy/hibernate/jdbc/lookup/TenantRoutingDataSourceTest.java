@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -16,8 +16,8 @@
 
 package org.qubership.atp.multitenancy.hibernate.jdbc.lookup;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,9 +28,8 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.qubership.atp.multitenancy.core.context.TenantContext;
 import org.qubership.atp.multitenancy.hibernate.config.HikariConfiguration;
@@ -41,20 +40,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import liquibase.exception.LiquibaseException;
 import liquibase.integration.spring.SpringLiquibase;
 
-@RunWith(SpringJUnit4ClassRunner.class)
 @ConfigurationPropertiesScan
 @TestPropertySource(locations = "classpath:test.properties")
-@ContextConfiguration(classes = {AdditionalPostgresClusters.class,
-        DefaultPostgresCluster.class, HikariConfiguration.class})
+@SpringJUnitConfig(classes = {
+        AdditionalPostgresClusters.class, DefaultPostgresCluster.class, HikariConfiguration.class})
 public class TenantRoutingDataSourceTest {
 
     /**
@@ -83,7 +80,7 @@ public class TenantRoutingDataSourceTest {
     /**
      * DataSources map.
      */
-    private Map<Object, Object> dataSources = new HashMap<>();
+    private final Map<Object, Object> dataSources = new HashMap<>();
 
     /**
      * TenantIdentifierResolver mock.
@@ -114,7 +111,7 @@ public class TenantRoutingDataSourceTest {
      *
      * @throws Exception in case database exceptions.
      */
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         tenantRoutingDataSource = new TenantRoutingDataSource(tenantIdentifierResolverMock, springLiquibaseMock,
                 resourceLoaderMock, additionalPostgresClusters, defaultPgCluster, hikariConfig, liquibasePropertiesMock);

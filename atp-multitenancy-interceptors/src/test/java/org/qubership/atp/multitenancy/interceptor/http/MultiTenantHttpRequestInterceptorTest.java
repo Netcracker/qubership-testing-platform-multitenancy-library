@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -16,32 +16,32 @@
 
 package org.qubership.atp.multitenancy.interceptor.http;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.qubership.atp.auth.springbootstarter.security.permissions.PolicyEnforcement;
 import org.qubership.atp.multitenancy.core.context.TenantContext;
 import org.qubership.atp.multitenancy.core.header.CustomHeader;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+@ExtendWith(SpringExtension.class)
 public class MultiTenantHttpRequestInterceptorTest {
 
     private MultiTenantHttpRequestInterceptor multiTenantHttpRequestInterceptor;
-    private String TENANT_ID = "3d6a138d-057b-4e35-8348-17aee2f2b0f8";
+    private final String TENANT_ID = "3d6a138d-057b-4e35-8348-17aee2f2b0f8";
     @Mock
     private HttpServletRequest requestMock;
     @Mock
@@ -58,7 +58,7 @@ public class MultiTenantHttpRequestInterceptorTest {
      *
      * @throws Exception in case errors.
      */
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         multiTenantHttpRequestInterceptor = new MultiTenantHttpRequestInterceptor(policyEnforcementMock);
         when(responseMock.getWriter()).thenReturn(printWriterMock);

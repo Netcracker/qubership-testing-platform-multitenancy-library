@@ -19,12 +19,10 @@ package org.qubership.atp.multitenancy.interceptor.jms.config;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.jms.ConnectionFactory;
-
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.qubership.atp.multitenancy.interceptor.jms.MultiTenantJmsInterceptorTest;
 import org.qubership.atp.multitenancy.interceptor.jms.MultiTenantJmsRequestInterceptor;
 import org.qubership.atp.multitenancy.interceptor.jms.MultiTenantJmsTemplate;
-import org.qubership.atp.multitenancy.interceptor.jms.MultiTenantJmsInterceptorTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.annotation.EnableJms;
@@ -32,6 +30,7 @@ import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 import org.springframework.jms.config.JmsListenerContainerFactory;
 import org.springframework.jms.support.destination.DynamicDestinationResolver;
 
+import jakarta.jms.ConnectionFactory;
 import lombok.RequiredArgsConstructor;
 
 @Configuration

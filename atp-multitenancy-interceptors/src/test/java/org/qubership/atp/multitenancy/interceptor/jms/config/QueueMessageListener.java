@@ -18,13 +18,12 @@ package org.qubership.atp.multitenancy.interceptor.jms.config;
 
 import java.util.List;
 
-import javax.jms.TextMessage;
-
 import org.qubership.atp.multitenancy.core.context.TenantContext;
 import org.qubership.atp.multitenancy.interceptor.jms.TestConstant;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
 
+import jakarta.jms.TextMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
