@@ -27,6 +27,7 @@ import org.qubership.atp.multitenancy.core.context.TenantContext;
 import org.qubership.atp.multitenancy.hibernate.jdbc.pojo.AdditionalPostgresCluster;
 import org.qubership.atp.multitenancy.hibernate.jdbc.pojo.AdditionalPostgresClusters;
 import org.qubership.atp.multitenancy.hibernate.jdbc.pojo.DefaultPostgresCluster;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.core.io.ResourceLoader;
@@ -41,6 +42,12 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class TenantRoutingDataSource extends AbstractRoutingDataSource {
+
+    @Value("${spring.datasource.url.tcpKeepAlive:false}")
+    private boolean tcpKeepAlive;
+
+    @Value("${spring.datasource.url.socketTimeout:0}")
+    private int socketTimeout;
 
     /**
      * TenantIdentifierResolver object link.
@@ -121,7 +128,21 @@ public class TenantRoutingDataSource extends AbstractRoutingDataSource {
         dataSourceBuilder.driverClassName(driverClassName);
         dataSourceBuilder.username(user);
         dataSourceBuilder.password(password);
-        dataSourceBuilder.url(url);
+
+        // Add Jdbc-level keepalive parameters (if configured) to the JDBC URL
+        String urlWithParams = url;
+        if (tcpKeepAlive) {
+            if (!url.contains("tcpKeepAlive")) {
+                urlWithParams += (url.contains("?") ? "&" : "?") + "tcpKeepAlive=true";
+            }
+        }
+        if (socketTimeout > 0) {
+            if (!urlWithParams.contains("socketTimeout")) {
+                urlWithParams += (urlWithParams.contains("?") ? "&" : "?") + "socketTimeout=" + socketTimeout;
+            }
+        }
+        dataSourceBuilder.url(urlWithParams);
+
         DataSource dataSource = dataSourceBuilder.build();
         if (dataSource instanceof HikariDataSource) {
             setHikariProperties((HikariDataSource) dataSource);
@@ -198,6 +219,8 @@ public class TenantRoutingDataSource extends AbstractRoutingDataSource {
         dataSource.setMaximumPoolSize(hikariConfig.getMaximumPoolSize());
         dataSource.setIdleTimeout(hikariConfig.getIdleTimeout());
         dataSource.setMaxLifetime(hikariConfig.getMaxLifetime());
+        dataSource.setKeepaliveTime(hikariConfig.getKeepaliveTime());
+        dataSource.setConnectionTimeout(hikariConfig.getConnectionTimeout());
     }
 }
 
