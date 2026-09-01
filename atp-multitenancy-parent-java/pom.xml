@@ -15,16 +15,16 @@
         <jakarta.servlet-api.version>6.1.0</jakarta.servlet-api.version>
         <jakarta.jms-api.version>3.1.0</jakarta.jms-api.version>
 
-        <io.undertow.version>2.3.21.Final</io.undertow.version>
+        <io.undertow.version>2.3.24.Final</io.undertow.version>
         <netty.version>4.1.132.Final</netty.version>
         <google.guava.version>32.0.1-jre</google.guava.version>
         <commons-lang3.version>3.18.0</commons-lang3.version>
-        <httpclient5.version>5.4.4</httpclient5.version>
-        <httpcore5.version>5.3.4</httpcore5.version>
+        <httpclient5.version>5.5.2</httpclient5.version>
+        <httpcore5.version>5.3.6</httpcore5.version>
         <mockito.version>5.23.0</mockito.version>
         <activemq.version>6.1.6</activemq.version>
 
-        <atp-auth.version>2.0.0</atp-auth.version>
+        <atp-auth.version>2.0.1</atp-auth.version>
         <atp-common.version>1.0.0</atp-common.version>
     </properties>
 
