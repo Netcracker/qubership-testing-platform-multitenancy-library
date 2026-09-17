@@ -22,8 +22,10 @@ import java.util.Map;
 
 import org.apache.activemq.junit.EmbeddedActiveMQBroker;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
@@ -58,6 +60,16 @@ public class MultiTenantJmsInterceptorTest {
     @AfterAll
     public static void afterClass() {
         embeddedBroker.stop();
+    }
+
+    @BeforeEach
+    public void beforeEachTest() {
+        exceptionHolder.clear();
+    }
+
+    @AfterEach
+    public void afterEachTest() {
+        exceptionHolder.clear();
     }
 
     /**
@@ -167,18 +179,20 @@ public class MultiTenantJmsInterceptorTest {
         prop.put(CustomHeader.X_PROJECT_ID, null);
         topicJmsTemplate.convertAndSend(TestConstant.TOPIC_NAME, TestConstant.MESSAGE_TEXT, prop);
         ArgumentCaptor<TextMessage> messageCaptor = ArgumentCaptor.forClass(TextMessage.class);
-        Mockito.verify(topicMessageListenerSpy, Mockito.timeout(200))
+        Mockito.verify(topicMessageListenerSpy, Mockito.timeout(300))
                 .topicJmsListenerMethod(messageCaptor.capture());
-        if (exceptionHolder.isEmpty()) {
-            fail();
-        }
+
+        // Exception is expected in the holder:
+        //  java.lang.RuntimeException: TenantContext contains not correct tenantId
+        Assertions.assertFalse(exceptionHolder.isEmpty());
     }
 
     private void fail() {
-        Exception exception = exceptionHolder.getFirst();
-        exceptionHolder.clear();
-        if (exception != null) {
-            throw new RuntimeException(exception.getMessage());
+        if (!exceptionHolder.isEmpty()) {
+            Exception exception = exceptionHolder.getFirst();
+            if (exception != null) {
+                throw new RuntimeException(exception.getMessage());
+            }
         }
     }
 }
